@@ -1,0 +1,92 @@
+{%  extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <h1>Nueva Serie <span class="glyphicon glyphicon-plus" style="color: #ffe57f" aria-hidden="true"></span></h1>
+    </div>
+</div>
+<br/>
+<br/>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+        <form class="form-horizontal" role="form" action="" method="post">
+            <div class="form-group">
+                <label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" value="{{ inputTitle }}" name="inputTitle" id="inputTitle" placeholder="T&iacute;tulo de la serie">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAuthorName" class="col-sm-3 control-label">Nombre del Autor</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputAuthorName" id="inputAuthorName"
+                           placeholder="Nombre del autor">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputAuthorEmail" class="col-sm-3 control-label">Correo del Autor</label>
+                <div class="col-sm-6">
+                    <input type="email" class="form-control" name="inputAuthorEmail" id="inputAuthorEmail"
+                           placeholder="ej: pepe@mail.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputScore" class="col-sm-3 control-label">Puntuaci&oacute;n</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control" name="inputScore" id="inputScore"
+                           placeholder="priority">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputImage" class="col-sm-3 control-label" id="inputImage">Imagen para la portada</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputImage" id="inputImage"
+                           placeholder="URL de la imagen de portada" onblur="onImageChange(event)"/><br/>
+                    <img id="image-preview" class="img-responsive" src="/static/img/default.jpg" onerror="onImgError()" alt="vista previa imagen"/>
+                    <div id="preview-alert" class="alert alert-danger" hidden>Invalid Image</div>
+                </div>
+
+            </div>
+            <div class="form-group text-center">
+                <button type="submit" value="submit" class="btn btn-success">Crear</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+    <script>
+        const DEF_IMG_URL = '/static/img/default.jpg';
+        var ALERTOR = undefined
+
+        function onImageChange(event) {
+
+            if(ALERTOR === undefined) ALERTOR = $('#preview-alert');
+
+            var val = event.currentTarget.value;
+            console.log(val)
+            val = (val !== undefined && val.trim() !== "")  ? val : DEF_IMG_URL;
+            console.log(`Valor actual _${val}_`);
+            if (val.startsWith('https://')|| val.startsWith("http://") || val.startsWith("/static/img/")) {
+                $('#image-preview').attr('src', val);
+                ALERTOR.attr('hidden', 'true');
+            } else {
+                ALERTOR.removeAttr('hidden');
+            }
+        }
+
+        function onImgError() {
+            var mod = $('#image-preview');
+            if (!mod.is('img')) {
+                //Si no se encuentra 'image-preview' no intentar para evitar (ciclos)
+                //alert(`HTML Element was expected to be img. Found ${mod} instead.` )
+                return;
+            }
+            ALERTOR.removeAttr('hidden');
+        }
+    </script>
+{% endblock content %}
