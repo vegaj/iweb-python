@@ -5,7 +5,7 @@ import jinja2
 
 from google.appengine.ext import db
 
-from models import Adds 
+from models import Adds, Serie
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -60,6 +60,12 @@ class EditAdd(BaseHandler):
         add = db.get(db.Key.from_path('Adds', iden))
         self.render_template('edit.html', {'add': add})
 
+class ShowSerie(BaseHandler):
+
+    def get(self, serie_id):
+        iden = int(serie_id)
+        serie = db.get(db.Key.from_path('Serie', iden))
+        self.render_template('showSerie.html', {'serie': serie})
 
 class DeleteAdd(BaseHandler):
 
