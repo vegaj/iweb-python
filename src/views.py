@@ -48,7 +48,7 @@ class CrearSerie(BaseHandler):
         # Input validation
         if not p['title']:
             error = 'El titulo esta vacio';
-        if not p['author_email']:
+        if not p['author_name']:
             error = 'El autor esta vacio'
         if not p['author_email']:
             error = 'El correo esta vacio'
