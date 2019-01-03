@@ -5,7 +5,7 @@ import jinja2
 
 from google.appengine.ext import db
 
-from models import Adds 
+from models import Adds, Serie
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -23,6 +23,52 @@ class BaseHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
 
+
+##
+#    SERIES
+##
+
+class CrearSerie(BaseHandler):
+
+    def get(self):
+        return self.render_template("series/new.html", {})
+
+    def post(self):
+
+        error = None
+        p = {
+            'title': self.request.get('inputTitle'),
+            'author_name': self.request.get('inputAuthorName'),
+            'author_email': self.request.get('inputAuthorEmail'),
+            'views': 0,
+            'score': self.request.get('inputScore'),
+
+        }
+
+        # Input validation
+        if not p['title']:
+            error = 'El titulo esta vacio';
+        if not p['author_email']:
+            error = 'El autor esta vacio'
+        if not p['author_email']:
+            error = 'El correo esta vacio'
+        try:
+            # Cambiar el modelo de int a float
+            p['score'] = long(p['score'])
+        except ValueError:
+            error = 'La puntuacion debe ser un numero'
+
+        if error:
+            p['error'] = error
+            return self.render_template("series/new.html", p)
+
+        try:
+            serie = Serie(title=p['title'], score=p['score'], author_name=p['author_name'], author_email=p['author_email'], views=p['views'])
+            serie.put()
+            return webapp2.redirect('/')
+        except Exception as e:
+            p['error'] = 'No se pudo crear por {}'.format(e.message)
+            return self.render_template("series/new.html", p)
 
 class ShowAdds(BaseHandler):
     
