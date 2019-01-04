@@ -67,7 +67,7 @@ class NewSerie(BaseHandler):
         try:
             serie = Serie(title=p['title'], score=p['score'], author_name=p['author_name'], author_email=p['author_email'], views=p['views'])
             serie.put()
-            return webapp2.redirect('/')
+            return webapp2.redirect('/series/list')
         except Exception as e:
             p['error'] = 'No se pudo crear por {}'.format(e.message)
             return self.render_template("series/new.html", p)
@@ -77,7 +77,17 @@ class ListSeries(BaseHandler):
     def get(self):
         series = Serie.all()
         self.render_template('/series/list.html', {'series': series})
-
+        
+#     def post(self):
+#         series = Serie(title = self.request.get('title'),
+#                        author_name = self.request.get('author_name'),
+#                        author_email = self.request.get('author_email'),
+#                        score = self.request.get('score')
+#                         )
+#         series.put()
+#         
+#         return webapp2.redirect('/series/list')
+               
 
 class ShowAdds(BaseHandler):
     
