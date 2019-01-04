@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-lg-12 text-center">
-        <h1>Editar serie <span class="glyphicon glyphicon-film" aria-hidden="true"></span></h1>
+        <h1>Editar serie <span class="glyphicon glyphicon-pencil" style="color: #5882FA" aria-hidden="true"></span></h1>
     </div>
 </div>
 <br/>
@@ -14,46 +14,45 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+	{% endif %}
         <form class="form-horizontal" role="form" action="" method="post">
             <div class="form-group">
                 <label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo:</label>
 
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="title" value="{{ serie.title }}">
+                    <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="T&iacute;tulo de la serie" value="{{ serie.title }}">
                 </div>
             </div>
-            <div class="form-group">
-                <label for="inputScore" class="col-sm-3 control-label">Puntuaci&oacute;n:</label>
-
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputScore" id="inputScore"
-                           placeholder="score" value="{{ serie.score }}">
-                </div>
-            </div>
+            
             <div class="form-group">
                 <label for="inputName" class="col-sm-3 control-label">Nombre del autor:</label>
 
                 <div class="col-sm-6">
                     <input type="text" class="form-control" name="inputName" id="inputName"
-                           placeholder="name" value="{{ serie.author_name }}">
+                           placeholder="Nombre del autor" value="{{ serie.author_name }}">
                 </div>
             </div>
+            
             <div class="form-group">
                 <label for="inputName" class="col-sm-3 control-label">Email del autor:</label>
 
                 <div class="col-sm-6">
                     <input type="email" class="form-control" name="inputEmail" id="inputEmail"
-                           placeholder="email" value="{{ serie.author_email }}">
+                           placeholder="ej: pepe@mail.com" value="{{ serie.author_email }}">
                 </div>
-            </div>
+            </div>  
+            
             <div class="form-group">
-                <label for="inputViews" class="col-sm-3 control-label">Visitas:</label>
+                <label for="inputScore" class="col-sm-3 control-label">Puntuaci&oacute;n:</label>
 
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputViews" id="inputViews"
-                           placeholder="views" value="{{ serie.views }}">
+                    <input type="text" class="form-control" name="inputScore" id="inputScore"
+                           placeholder="Puntuaci&oacute;n de la serie" value="{{ serie.score }}">
                 </div>
             </div>
+                      
             <div class="form-group text-center">
                 <button type="submit" value="submit" class="btn btn-warning">Guardar</button>
             </div>
