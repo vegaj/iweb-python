@@ -46,8 +46,8 @@ class NewAdd(BaseHandler):
 
     def post(self):
         add = Adds(author=self.request.get('inputAuthor'),
-                  text=self.request.get('inputText'),
-                  priority=int(self.request.get('inputPriority')))
+        text=self.request.get('inputText'),
+        priority=int(self.request.get('inputPriority')))
         add.put()
         return webapp2.redirect('/')
 
@@ -78,7 +78,7 @@ class DeleteAdd(BaseHandler):
         iden = int(add_id)
         add = db.get(db.Key.from_path('Adds', iden))
         db.delete(add)
-return webapp2.redirect('/')
+        return webapp2.redirect('/')
 
 
 
