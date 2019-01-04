@@ -28,7 +28,9 @@ class BaseHandler(webapp2.RequestHandler):
 #    SERIES
 ##
 
-class CrearSerie(BaseHandler):
+# class CrearSerie(BaseHandler):
+class NewSerie(BaseHandler):
+
 
     def get(self):
         return self.render_template("series/new.html", {})
@@ -69,6 +71,13 @@ class CrearSerie(BaseHandler):
         except Exception as e:
             p['error'] = 'No se pudo crear por {}'.format(e.message)
             return self.render_template("series/new.html", p)
+
+
+class ListSeries(BaseHandler):
+    def get(self):
+        series = Serie.all()
+        self.render_template('/series/list.html', {'series': series})
+
 
 class ShowAdds(BaseHandler):
     
