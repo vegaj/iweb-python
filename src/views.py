@@ -24,6 +24,18 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
 
+##
+#    SERIES
+##
+
+class DeleteSerie(BaseHandler):
+
+    def get(self, serie_id):
+        iden = int(serie_id)
+        serie = db.get(db.Key.from_path('Serie', iden))
+        db.delete(serie)
+        return webapp2.redirect('/')
+
 class ShowAdds(BaseHandler):
     
     def get(self):
@@ -60,13 +72,13 @@ class EditAdd(BaseHandler):
         add = db.get(db.Key.from_path('Adds', iden))
         self.render_template('edit.html', {'add': add})
 
+class DeleteAdd(BaseHandler):
 
-class DeleteSerie(BaseHandler):
+    def get(self, add_id):
+        iden = int(add_id)
+        add = db.get(db.Key.from_path('Adds', iden))
+        db.delete(add)
+return webapp2.redirect('/')
 
-    def get(self, serie_id):
-        iden = int(serie_id)
-        serie = db.get(db.Key.from_path('Serie', iden))
-        db.delete(serie)
-        return webapp2.redirect('/')
 
 

@@ -1,10 +1,11 @@
-from views import ShowAdds, NewAdd, DeleteSerie, EditAdd
+from views import ShowAdds, NewAdd, DeleteAdd, EditAdd, DeleteSerie
 import webapp2
 
 app = webapp2.WSGIApplication([
-        ('/', ShowAdds), 
+         ('/', ShowAdds), 
         ('/new', NewAdd), 
         ('/edit/([\d]+)', EditAdd),
-        ('/delete/([\d]+)', DeleteSerie),
+        ('/delete/([\d]+)', DeleteAdd),
+        ('/series/delete/([\d]+)', DeleteSerie),
         ],
         debug=True)
