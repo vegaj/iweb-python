@@ -36,12 +36,9 @@
                 <td>{{ s.author_email }}</td>
                 <td>{{ s.score }}</td>
                 <td>{{ s.views }}</td>
-                <td>
-                    <!--
-                    Usaba add.key().id() en lugar de s.key().id()
-                    <a class="btn btn-warning" href="/edit/{{ s.key().id() }}">Editar </a>
-                    -->
-                </td>
+                <td><a class="btn btn-warning" href="/series/showSerie/{{ s.key().id() }}">Show</a></td>
+                <td><a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >Edit</a></td>
+                <td><a class="btn btn-warning" href="/series/delete/{{ s.key().id() }}">Delete</a></td>                
             </tr>
             {% endfor %}
             </tbody>
