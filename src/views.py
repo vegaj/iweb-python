@@ -32,7 +32,15 @@ class EditSerie(BaseHandler):
     def get(self, serie_id):
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
-        self.render_template('series/edit.html', {'serie': serie})
+        error = None
+        p = {
+            'title': serie.title,
+            'author_name': serie.author_name,
+            'author_email': serie.author_email,
+            'score': serie.score,
+
+        }
+        self.render_template('series/edit.html', p)
         
     def post(self, serie_id):             
         
@@ -65,10 +73,10 @@ class EditSerie(BaseHandler):
         try:
             iden = int(serie_id)
             serie = db.get(db.Key.from_path('Serie', iden)) 
-            p['title'] = serie.title
-            p['author_name'] = serie.author_name
-            p['author_email'] = serie.author_email 
-            p['score'] = serie.score
+            serie.title = p['title'] 
+            serie.author_name = p['author_name'] 
+            serie.author_email = p['author_email'] 
+            serie.score = p['score'] 
             serie.put()
             return webapp2.redirect('/')
         except Exception as e:
