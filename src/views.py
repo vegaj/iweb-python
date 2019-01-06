@@ -26,10 +26,6 @@ class BaseHandler(webapp2.RequestHandler):
 #    SERIES
 ##
 
-##
-#    SERIES
-##
-
 # class CrearSerie(BaseHandler):
 class NewSerie(BaseHandler):
 
@@ -173,8 +169,8 @@ class NewAdd(BaseHandler):
 
     def post(self):
         add = Adds(author=self.request.get('inputAuthor'),
-                  text=self.request.get('inputText'),
-                  priority=int(self.request.get('inputPriority')))
+        text=self.request.get('inputText'),
+        priority=int(self.request.get('inputPriority')))
         add.put()
         return webapp2.redirect('/')
 
@@ -198,7 +194,6 @@ class EditAdd(BaseHandler):
         iden = int(add_id)
         add = db.get(db.Key.from_path('Adds', iden))
         self.render_template('edit.html', {'add': add})
-
 
 class DeleteAdd(BaseHandler):
 
