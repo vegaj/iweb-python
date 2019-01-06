@@ -3,38 +3,42 @@
 
 <div class="row">
     <div class="col-lg-12 text-center">
-        <h1>Anuncios <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></h1>
+        <h1>Series <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></h1>
 
     </div>
 </div>
 <br/>
-<a class="btn btn-primary" href="/new">
-    Crear anuncio
+<a class="btn btn-primary" href="/series/new">
+    Crear serie
     <span style="margin-left: 5px;" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 </a>
 <br/>
 <br/>
 
-{% if adds.count() > 0 %}
+{% if series.count() > 0 %}
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <table class="table">
             <thead>
-            <th>Descripci&oacute;n</th>
-            <th>E-mail</th>
-            <th>Fecha de creaci&oacute;n</th>
-            <th>Prioridad</th>
-            <th>Acciones</th>
+            <th>Title</th>
+            <th>Author's name</th>
+            <th>Author's mail</th>
+            <th>Score</th>
+            <th>Views (*)</th> <!--? Este campo se podría mostrar -->
+            <th>Options</th><!-- Una nueva sección-->
             </thead>
             <tbody>
-            {% for add in adds %}
+            {% for s in series %}
             <tr>
-                <td>{{ add.text }}</td>
-                <td>{{ add.author }}</td>
-                <td>{{ add.date.strftime('%Y-%m-%d') }}</td>
-                <td>{{ add.priority }}</td>
-                <td><a class="btn btn-warning" href="/edit/{{ add.key().id() }}">Editar </a></td>
+                <td>{{ s.title }}</td>
+                <td>{{ s.author_name }}</td>
+                <td>{{ s.author_email }}</td>
+                <td>{{ s.score }}</td>
+                <td>{{ s.views }}</td>
+                <td><a class="btn btn-warning" href="/series/show/{{ s.key().id() }}">Show</a></td>
+                <td><a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >Edit</a></td>
+                <td><a class="btn btn-warning" href="/series/delete/{{ s.key().id() }}">Delete</a></td>                
             </tr>
             {% endfor %}
             </tbody>
@@ -47,7 +51,7 @@
     <div class="col-lg-12 text-center">
         <div class="col-md-3"></div>
         <div class="col-md-6 bg-warning warning_mesagge">
-            <label>No existen anuncios todav&iacute;a.</label>
+            <label>No existen series todav&iacute;a.</label>
         </div>
         <div class="col-md-3"></div>
 

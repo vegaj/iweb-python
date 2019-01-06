@@ -12,8 +12,8 @@
     <title>Google App Engine - MisAnuncios</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/css/style.css" rel="stylesheet">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <style>
@@ -29,6 +29,21 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
+    <meta name="google-signin-client_id"
+          content="676906808110-oml9olnm30pdcvk3jsjl9e9pp5hdof9j.apps.googleusercontent.com">
+    {% block head %}
+    {% endblock %}
+    <script>
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '676906808110-oml9olnm30pdcvk3jsjl9e9pp5hdof9j.apps.googleusercontent.com',
+                });
+            });
+        }
+    </script>
 
 </head>
 
@@ -51,11 +66,16 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Anuncios</a>
+                    <a href="/series/"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Series</a>
 
                 </li>
                 <li>
-                   <!-- <a href="/login"> <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</a> -->
+                    <!-- <a href="/login"> <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</a> -->
+                </li>
+                <li>
+                    <!-- SignIn/SignOut -->
+                    <button id="signoutButton" class="btn btn-danger" style="display: none; margin-top: 8px">Logout</button>
+                    <div id="signinButton" style="margin-top: 8px" class="g-signin2" data-onsuccess="onSignInSuccess" data-onfailure="onSignInFailure"></div>
                 </li>
             </ul>
         </div>
@@ -63,6 +83,7 @@
     </div>
     <!-- /.container -->
 </nav>
+
 
 <!-- Page Content -->
 <div class="container">
@@ -75,14 +96,37 @@
 </div>
 <!-- /.container -->
 
-<!-- jQuery Version 1.11.1 -->
-<script src="static/js/jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="static/js/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $('.carousel').carousel();
 </script>
+
+<script>
+    function onSignInSuccess() {
+        console.log("Logged " + auth2.currentUser.get().getBasicProfile().getName())
+        $('#signinButton').attr('style', 'display: none');
+        $('#signoutButton').show()
+    }
+
+    function onSignInFailure(err) {
+        console.error(err)
+    }
+
+    $('#signoutButton').click(function () {
+        auth2.signOut().then(function () {
+            $('#signoutButton').attr('style', 'display: none');
+            $('#signinButton').show()
+        });
+        auth2.disconnect();
+        console.log("logout")
+    });
+
+</script>
+{% block scripts %}
+{% endblock %}
 
 </body>
 

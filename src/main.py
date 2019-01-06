@@ -1,10 +1,15 @@
-from views import ShowAdds, NewAdd, DeleteAdd, EditAdd
+from views import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie, NewSketch, EditSketch, DeleteSketch
 import webapp2
 
 app = webapp2.WSGIApplication([
-        ('/', ShowAdds), 
-        ('/new', NewAdd), 
-        ('/edit/([\d]+)', EditAdd),
-        ('/delete/([\d]+)', DeleteAdd),
+        ('/', ListSeries),
+        ('/sketches/new', NewSketch),
+        ('/sketches/edit/([\d]+)', EditSketch),
+        ('/sketches/delete/([\d]+)', DeleteSketch),
+        ('/series/', ListSeries),
+        ('/series/new', NewSerie),
+        ('/series/show/([\d]+)', ShowSerie),
+        ('/series/edit/([\d]+)', EditSerie),
+        ('/series/delete/([\d]+)', DeleteSerie),
         ],
         debug=True)
