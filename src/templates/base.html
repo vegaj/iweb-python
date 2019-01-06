@@ -66,11 +66,16 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>Anuncios</a>
+                    <a href="/series/"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Series</a>
 
                 </li>
                 <li>
                     <!-- <a href="/login"> <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</a> -->
+                </li>
+                <li>
+                    <!-- SignIn/SignOut -->
+                    <button id="signoutButton" class="btn btn-danger" style="display: none; margin-top: 8px">Logout</button>
+                    <div id="signinButton" style="margin-top: 8px" class="g-signin2" data-onsuccess="onSignInSuccess" data-onfailure="onSignInFailure"></div>
                 </li>
             </ul>
         </div>
@@ -79,9 +84,7 @@
     <!-- /.container -->
 </nav>
 
-<!-- SignIn/SignOut -->
-<button id="signoutButton" class="btn btn-danger" style="display: none">Logout</button>
-<div id="signinButton" class="g-signin2" data-onsuccess="onSignInSuccess" data-onfailure="onSignInFailure"></div>
+
 <!-- Page Content -->
 <div class="container">
 
