@@ -22,6 +22,9 @@ class BaseHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
 
+##
+#    SERIES
+##
 
 ##
 #    SERIES
@@ -147,6 +150,19 @@ class EditSerie(BaseHandler):
         
         
 
+class ShowSerie(BaseHandler):
+
+    def get(self, serie_id):
+        iden = int(serie_id)
+        serie = db.get(db.Key.from_path('Serie', iden))
+             
+        if not serie:
+            return self.render_template("series/show.html", {'serie': serie})
+           
+        serie.views += 1 
+        serie.put()        
+        self.render_template('series/show.html', {'serie': serie})
+        
 class ShowAdds(BaseHandler):
     
     def get(self):
@@ -195,12 +211,6 @@ class DeleteAdd(BaseHandler):
 
 class ShowSerie(BaseHandler):
 
-    def get(self, serie_id):
-        iden = int(serie_id)
-        serie = db.get(db.Key.from_path('Serie', iden))
-        self.render_template('/series/showSerie.html', {'serie': serie})
-        
-        
 
 class EditSerie(BaseHandler):
 
@@ -249,3 +259,5 @@ class DeleteSerie(BaseHandler):
         return webapp2.redirect('/series/list')
 
 
+
+        
