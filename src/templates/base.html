@@ -30,6 +30,21 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
+    <meta name="google-signin-client_id"
+          content="676906808110-oml9olnm30pdcvk3jsjl9e9pp5hdof9j.apps.googleusercontent.com">
+    {% block head %}
+    {% endblock %}
+    <script>
+        function start() {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '676906808110-oml9olnm30pdcvk3jsjl9e9pp5hdof9j.apps.googleusercontent.com',
+                });
+            });
+        }
+    </script>
+
 </head>
 
 <body>
@@ -55,7 +70,7 @@
 
                 </li>
                 <li>
-                   <!-- <a href="/login"> <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</a> -->
+                    <!-- <a href="/login"> <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</a> -->
                 </li>
             </ul>
         </div>
@@ -64,6 +79,9 @@
     <!-- /.container -->
 </nav>
 
+<!-- SignIn/SignOut -->
+<button id="signoutButton" class="btn btn-danger" style="display: none">Logout</button>
+<div id="signinButton" class="g-signin2" data-onsuccess="onSignInSuccess" data-onfailure="onSignInFailure"></div>
 <!-- Page Content -->
 <div class="container">
 
@@ -75,14 +93,37 @@
 </div>
 <!-- /.container -->
 
-<!-- jQuery Version 1.11.1 -->
-<script src="/static/js/jquery.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     $('.carousel').carousel();
 </script>
+
+<script>
+    function onSignInSuccess() {
+        console.log("Logged " + auth2.currentUser.get().getBasicProfile().getName())
+        $('#signinButton').attr('style', 'display: none');
+        $('#signoutButton').show()
+    }
+
+    function onSignInFailure(err) {
+        console.error(err)
+    }
+
+    $('#signoutButton').click(function () {
+        auth2.signOut().then(function () {
+            $('#signoutButton').attr('style', 'display: none');
+            $('#signinButton').show()
+        });
+        auth2.disconnect();
+        console.log("logout")
+    });
+
+</script>
+{% block scripts %}
+{% endblock %}
 
 </body>
 
