@@ -6,6 +6,6 @@ app = webapp2.WSGIApplication([
         ('/new', NewAdd), 
         ('/edit/([\d]+)', EditAdd),
         ('/delete/([\d]+)', DeleteAdd),        
-        ('/showSerie/([\d]+)', ShowSerie),
+        ('/series/show/([\d]+)', ShowSerie),
         ],
         debug=True)
