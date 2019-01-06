@@ -80,7 +80,7 @@ class EditSerie(BaseHandler):
             serie.put()
             return webapp2.redirect('/')
         except Exception as e:
-            p['error'] = 'No se pudo crear por {}'.format(e.message)
+            p['error'] = 'No se pudo editar por {}'.format(e.message)
             return self.render_template("series/edit.html", p)
         
         
