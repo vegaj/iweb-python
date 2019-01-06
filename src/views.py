@@ -11,7 +11,6 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
-
 class BaseHandler(webapp2.RequestHandler):
 
     def render_template(
@@ -88,6 +87,65 @@ class ListSeries(BaseHandler):
 #         
 #         return webapp2.redirect('/series/list')
                
+
+
+class EditSerie(BaseHandler):
+
+    def get(self, serie_id):
+        iden = int(serie_id)
+        serie = db.get(db.Key.from_path('Serie', iden))
+        error = None
+        p = {
+            'title': serie.title,
+            'author_name': serie.author_name,
+            'author_email': serie.author_email,
+            'score': serie.score,
+
+        }
+        self.render_template('series/edit.html', p)
+        
+    def post(self, serie_id):             
+        
+        error = None
+        p = {
+            'title': self.request.get('inputTitle'),
+            'author_name': self.request.get('inputName'),
+            'author_email': self.request.get('inputEmail'),
+            'score': self.request.get('inputScore'),
+
+        }
+                
+        # Input validation
+        if not p['title']:
+            error = 'El titulo esta vacio';
+        if not p['author_name']:
+            error = 'El autor esta vacio'
+        if not p['author_email']:
+            error = 'El correo esta vacio'
+        try:
+            # Cambiar el modelo de int a float
+            p['score'] = long(p['score'])
+        except ValueError:
+            error = 'La puntuacion debe ser un numero'
+            
+        if error:
+            p['error'] = error
+            return self.render_template("series/edit.html", p)
+
+        try:
+            iden = int(serie_id)
+            serie = db.get(db.Key.from_path('Serie', iden)) 
+            serie.title = p['title'] 
+            serie.author_name = p['author_name'] 
+            serie.author_email = p['author_email'] 
+            serie.score = p['score'] 
+            serie.put()
+            return webapp2.redirect('/')
+        except Exception as e:
+            p['error'] = 'No se pudo editar por {}'.format(e.message)
+            return self.render_template("series/edit.html", p)
+        
+        
 
 class ShowAdds(BaseHandler):
     
