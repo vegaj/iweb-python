@@ -159,6 +159,7 @@ class ShowSerie(BaseHandler):
         serie.views += 1
         serie.put()
         self.render_template('series/show.html', {'serie': serie})
+        self.render_template('series/show.html', {'serie': serie, 'sketches': serie.sketches})
 
 
 class EditSerie(BaseHandler):
