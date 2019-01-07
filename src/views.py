@@ -170,6 +170,8 @@ class DeleteSerie(BaseHandler):
     def get(self, serie_id):
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
+        if not serie:
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
         db.delete(serie)
         return webapp2.redirect('/series/')
 
