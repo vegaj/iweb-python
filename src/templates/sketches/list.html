@@ -6,7 +6,6 @@
 
     <table class="table">
         <thead>
-            <th>ID</th>
             <th>T&iacute;tulo</th>
             <th>Puntuaci&oacute;n</th>
             <th>Fecha de publicaci&oacute;n</th>
@@ -15,18 +14,22 @@
     <tbody>
     {% for sk in sketches %}
         <tr>
-            <td>{{ sk.key().id() }}</td>
             <td>{{ sk.title }}</td>
             <td>{{ sk.score }}</td>
             <td>{{ sk.createdAt }}</td>
             <!-- TODO: Restringir -->
             <td>
+                <a href="/sketches/{{ sk.key().id() }}" class="btn btn-info">
+                    <!-- En badge: el número de comentarios -->
+                    <span class="badge">10</span> <span class="glyphicon glyphicon-comment"></span>
+                </a>
                 <a  href="/sketches/edit/{{ sk.key().id() }}" class="btn btn-warning">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
                 <a  href="/sketches/delete/{{ sk.key().id() }}" class="btn btn-danger">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
+
             </td>
         </tr>
     {% endfor %}
