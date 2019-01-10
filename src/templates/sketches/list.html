@@ -1,0 +1,42 @@
+<!-- Usa todo el espacio disponible -->
+<div>
+
+    <h3>Vi&ntilde;etas {{ sketches.count() if  sketches.count() > 0 else ""}}</h3>
+    {% if sketches and sketches.count() > 0%}
+
+    <table class="table">
+        <thead>
+            <th>T&iacute;tulo</th>
+            <th>Puntuaci&oacute;n</th>
+            <th>Fecha de publicaci&oacute;n</th>
+            <th><span class="glyphicon glyphicon-cog"></span></th>
+        </thead>
+    <tbody>
+    {% for sk in sketches %}
+        <tr>
+            <td>{{ sk.title }}</td>
+            <td>{{ sk.score }}</td>
+            <td>{{ sk.createdAt }}</td>
+            <!-- TODO: Restringir -->
+            <td>
+                <a href="/sketches/{{ sk.key().id() }}" class="btn btn-info">
+                    <!-- En badge: el número de comentarios -->
+                    <span class="badge">10</span> <span class="glyphicon glyphicon-comment"></span>
+                </a>
+                <a  href="/sketches/edit/{{ sk.key().id() }}" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a  href="/sketches/delete/{{ sk.key().id() }}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+
+    {% else %}
+        <div class="alert alert-info">Esta Serie no tiene ninguna Vi&ntilde;eta a&uacute;n</div>
+    {% endif %}
+</div>
