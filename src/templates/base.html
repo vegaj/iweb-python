@@ -30,9 +30,18 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="https://apis.google.com/js/platform.js?onload=start" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
     <meta name="google-signin-client_id"
           content="676906808110-oml9olnm30pdcvk3jsjl9e9pp5hdof9j.apps.googleusercontent.com">
+    <script>
+        function init() {
+            gapi.load('auth2', function () {
+                gapi.auth2.init({
+                    client_id: '676906808110-oml9olnm30pdcvk3jsjl9e9pp5hdof9j.apps.googleusercontent.com',
+                });
+            })
+        }
+    </script>
     {% block head %}
     {% endblock %}
 </head>
@@ -64,8 +73,11 @@
                 </li>
                 <li>
                     <!-- SignIn/SignOut -->
-                    <button id="signoutButton" class="btn btn-danger" style="display: none; margin-top: 8px">Logout</button>
-                    <div id="signinButton" style="margin-top: 8px; display: none" class="g-signin2" data-onsuccess="onSignInSuccess" data-onfailure="onSignInFailure"></div>
+                    {% if logged %}
+                        <a href="/logout" id="logout">Logout</a>
+                    {% else %}
+                        <a href="/login">Login</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>
@@ -95,39 +107,10 @@
 </script>
 
 <script>
-
-    $(function() {
-       if(localStorage.getItem("logged")) {
-           $('#signoutButton').show()
-       }  else {
-           $('#signinButton').show()
-       }
-    });
-
-    function onSignInSuccess(res) {
-        localStorage.setItem("logged", "true");
-        var profile = res.getBasicProfile();
-        localStorage.setItem("name", profile.getName());
-        localStorage.setItem("email", profile.getEmail());
-        $('#signinButton').attr('style', 'display: none; margin-top: 8px');
-        $('#signoutButton').show()
-    }
-
-    function onSignInFailure(err) {
-        console.error(err)
-    }
-
-    $('#signoutButton').click(function () {
-        window.gapi.auth2.getAuthInstance().signOut().then(function () {
-            $('#signoutButton').attr('style', 'display: none; margin-top: 8px');
-            $('#signinButton').show()
-        });
+    $('#logout').click(function () {
+        window.gapi.auth2.getAuthInstance().signOut();
         window.gapi.auth2.getAuthInstance().disconnect();
-        localStorage.removeItem("logged");
-        localStorage.removeItem("name");
-        localStorage.removeItem("email");
     });
-
 </script>
 {% block scripts %}
 {% endblock %}
