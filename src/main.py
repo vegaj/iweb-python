@@ -3,7 +3,6 @@ import webapp2
 
 app = webapp2.WSGIApplication([
         ('/', ListSeries),
-        ('/sketches/new', NewSketch),
         ('/sketches/edit/([\d]+)', EditSketch),
         ('/sketches/delete/([\d]+)', DeleteSketch),
         ('/series/', ListSeries),
@@ -11,5 +10,6 @@ app = webapp2.WSGIApplication([
         ('/series/show/([\d]+)', ShowSerie),
         ('/series/edit/([\d]+)', EditSerie),
         ('/series/delete/([\d]+)', DeleteSerie),
+        ('/series/([\d]+)/sketches/new', NewSketch),
         ],
         debug=True)

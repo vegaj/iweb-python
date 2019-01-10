@@ -184,8 +184,44 @@ class ShowSketch(BaseHandler):
 
 
 class NewSketch(BaseHandler):
-    def get(self):
-        webapp2.redirect("/")
+
+    def get(self, serie_id):
+        iden = int(serie_id)
+        serie = db.get(db.Key.from_path('Serie', iden))
+        error = None
+        return self.render_template("sketches/new.html", {})
+
+    def post(self, serie_id):
+        error = None
+        p = {'title': self.request.get('inputTitle'),
+             'score': self.request.get('inputScore')
+             }
+
+        # Input validation
+        if not p['title']:
+            error = 'El titulo esta vacio';
+
+        try:
+            # Cambiar el modelo de int a float
+            p['score'] = long(p['score'])
+        except ValueError:
+            error = 'La puntuacion debe ser un numero'
+
+        iden = int(serie_id)
+        serie1 = db.get(db.Key.from_path('Serie', iden))
+        if not serie1:
+            error = 'No existe la serie'
+        try:
+            sk = Sketch(title=p['title'],
+                        createdAt=datetime.now(),
+                        score=p['score'],
+                        serie=serie1
+                        )
+            sk.put()
+            return webapp2.redirect('/series/')
+        except Exception as e:
+            p['error'] = 'No se pudo crear por {}'.format(e.message)
+            return self.render_template("/", p)
 
 
 class EditSketch(BaseHandler):
