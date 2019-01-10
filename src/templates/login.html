@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+{% block content %}
+    <div class="g-signin2" data-onsuccess="onSuccess" data-onfailure="onFailure"></div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        function onSuccess(response) {
+            user = response.getBasicProfile();
+            $.post('/login', {
+                user_name: user.getName(),
+                user_email: user.getEmail()
+            }, function () {window.location.href = "/"})
+        }
+
+        function onFailure(err) {
+            console.error(err)
+        }
+    </script>
+{% endblock %}
