@@ -196,5 +196,8 @@ class EditSketch(BaseHandler):
 
 class DeleteSketch(BaseHandler):
 
-    def get(self, add_id):
-        webapp2.redirect("/")
+    def get(self, sketch_id):
+        iden = int(sketch_id)
+        sketch = db.get(db.Key.from_path('Sketch', iden))
+        db.delete(sketch)
+        return webapp2.redirect('/series/')
