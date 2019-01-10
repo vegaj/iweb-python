@@ -17,6 +17,7 @@ app = webapp2.WSGIApplication([
         ('/series/show/([\d]+)', ShowSerie),
         ('/series/edit/([\d]+)', EditSerie),
         ('/series/delete/([\d]+)', DeleteSerie),
+        ('/series/([\d]+)/sketches/new', NewSketch),
         ],
         config=config,
         debug=True)

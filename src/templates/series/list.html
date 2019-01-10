@@ -21,12 +21,12 @@
     <div class="col-md-8">
         <table class="table">
             <thead>
-            <th>Title</th>
-            <th>Author's name</th>
-            <th>Author's mail</th>
-            <th>Score</th>
-            <th>Views (*)</th> <!--? Este campo se podría mostrar -->
-            <th>Options</th><!-- Una nueva sección-->
+            <th>T&iacute;tulo</th>
+            <th>Nombre del Autor</th>
+            <th>Email del autor</th>
+            <th>Puntuaci&oacute;n</th>
+            <th>Visualizaciones</th>
+            <th>Opciones</th>
             </thead>
             <tbody>
             {% for s in series %}
@@ -36,9 +36,10 @@
                 <td>{{ s.author_email }}</td>
                 <td>{{ s.score }}</td>
                 <td>{{ s.views }}</td>
-                <td><a class="btn btn-warning" href="/series/show/{{ s.key().id() }}">Show</a></td>
-                <td><a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >Edit</a></td>
-                <td><a class="btn btn-warning" href="/series/delete/{{ s.key().id() }}">Delete</a></td>                
+                <td><a class="btn btn-info" href="/series/show/{{ s.key().id() }}">Mostrar</a></td>
+                <td><a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >Editar</a></td>
+                <td><a class="btn btn-danger" href="/series/delete/{{ s.key().id() }}">Eliminar</a></td>
+                <td><a class="btn btn-primary" href="/series/{{ s.key().id() }}/sketches/new">Nueva Vi&ntilde;eta</a></td>
             </tr>
             {% endfor %}
             </tbody>

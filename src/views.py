@@ -108,63 +108,6 @@ class ListSeries(BaseHandler):
 #         return webapp2.redirect('/series/')
 
 
-class EditSerie(BaseHandler):
-
-    def get(self, serie_id):
-        iden = int(serie_id)
-        serie = db.get(db.Key.from_path('Serie', iden))
-        error = None
-        p = {
-            'title': serie.title,
-            'author_name': serie.author_name,
-            'author_email': serie.author_email,
-            'score': serie.score,
-
-        }
-        self.render_template('series/edit.html', p)
-
-    def post(self, serie_id):
-
-        error = None
-        p = {
-            'title': self.request.get('inputTitle'),
-            'author_name': self.request.get('inputName'),
-            'author_email': self.request.get('inputEmail'),
-            'score': self.request.get('inputScore'),
-
-        }
-
-        # Input validation
-        if not p['title']:
-            error = 'El titulo esta vacio';
-        if not p['author_name']:
-            error = 'El autor esta vacio'
-        if not p['author_email']:
-            error = 'El correo esta vacio'
-        try:
-            # Cambiar el modelo de int a float
-            p['score'] = long(p['score'])
-        except ValueError:
-            error = 'La puntuacion debe ser un numero'
-
-        if error:
-            p['error'] = error
-            return self.render_template("series/edit.html", p)
-
-        try:
-            iden = int(serie_id)
-            serie = db.get(db.Key.from_path('Serie', iden))
-            serie.title = p['title']
-            serie.author_name = p['author_name']
-            serie.author_email = p['author_email']
-            serie.score = p['score']
-            serie.put()
-            return webapp2.redirect('/')
-        except Exception as e:
-            p['error'] = 'No se pudo editar por {}'.format(e.message)
-            return self.render_template("series/edit.html", p)
-
-
 class ShowSerie(BaseHandler):
 
     def get(self, serie_id):
@@ -172,11 +115,13 @@ class ShowSerie(BaseHandler):
         serie = db.get(db.Key.from_path('Serie', iden))
 
         if not serie:
-            return self.render_template("series/show.html", {'serie': serie})
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
 
         serie.views += 1
         serie.put()
-        self.render_template('series/show.html', {'serie': serie})
+
+        sketches = serie.sketches if serie.sketches else []
+        self.render_template('series/show.html', {'serie': serie, 'sketches': sketches})
 
 
 class EditSerie(BaseHandler):
@@ -184,6 +129,10 @@ class EditSerie(BaseHandler):
     def get(self, serie_id):
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
+
+        if not serie:
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
+
         error = None
         p = {
             'title': serie.title,
@@ -241,6 +190,8 @@ class DeleteSerie(BaseHandler):
     def get(self, serie_id):
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
+        if not serie:
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
         db.delete(serie)
         return webapp2.redirect('/series/')
 
@@ -251,20 +202,109 @@ class ShowSketch(BaseHandler):
 
 
 class NewSketch(BaseHandler):
-    def get(self):
-        webapp2.redirect("/")
+
+    def get(self, serie_id):
+        iden = int(serie_id)
+        serie = db.get(db.Key.from_path('Serie', iden))
+        error = None
+        return self.render_template("sketches/new.html", {})
+
+    def post(self, serie_id):
+        error = None
+        p = {'title': self.request.get('inputTitle'),
+             'score': self.request.get('inputScore')
+             }
+
+        # Input validation
+        if not p['title']:
+            error = 'El titulo esta vacio';
+
+        try:
+            # Cambiar el modelo de int a float
+            p['score'] = long(p['score'])
+        except ValueError:
+            error = 'La puntuacion debe ser un numero'
+
+        iden = int(serie_id)
+        serie1 = db.get(db.Key.from_path('Serie', iden))
+        if not serie1:
+            error = 'No existe la serie'
+        try:
+            sk = Sketch(title=p['title'],
+                        createdAt=datetime.now(),
+                        score=p['score'],
+                        serie=serie1
+                        )
+            sk.put()
+            return webapp2.redirect('/series/')
+        except Exception as e:
+            p['error'] = 'No se pudo crear por {}'.format(e.message)
+            return self.render_template("/", p)
 
 
 class EditSketch(BaseHandler):
 
-    def get(self, add_id):
-        webapp2.redirect("/")
+    def get(self, sketch_id):
+        iden = int(sketch_id)
+        sketch = db.get(db.Key.from_path('Sketch', iden))
+        error = None
+        p = {
+            'title': sketch.title,
+            'createdAt': sketch.createdAt,
+            'score': sketch.score,
+        }
+
+        self.render_template('sketches/edit.html', p)
+
+    def post(self, sketch_id):
+
+        error = None
+        p = {
+            'title': self.request.get('inputTitle'),
+            'createdAt': self.request.get('inputCreatedAt'),
+            'score': self.request.get('inputScore'),
+
+        }
+
+        # Input validation
+        if not p['title']:
+            error = 'El titulo esta vacio';
+
+        try:
+            p['createdAt'] = date(p['createdAt'])
+        except ValueError:
+            error = 'La fecha esta vacia'
+
+        try:
+            # Cambiar el modelo de int a float
+            p['score'] = long(p['score'])
+        except ValueError:
+            error = 'La puntuacion debe ser un numero'
+
+        if error:
+            p['error'] = error
+            return self.render_template("sketches/edit.html", p)
+
+        try:
+            iden = int(sketch_id)
+            sketch = db.get(db.Key.from_path('Sketch', iden))
+            sketch.title = p['title']
+            sketch.createdAt = p['createdAt']
+            sketch.score = p['score']
+            sketch.put()
+            return webapp2.redirect('/')
+        except Exception as e:
+            p['error'] = 'No se pudo editar por {}'.format(e.message)
+            return self.render_template("sketches/edit.html", p)
 
 
 class DeleteSketch(BaseHandler):
 
-    def get(self, add_id):
-        webapp2.redirect("/")
+    def get(self, sketch_id):
+        iden = int(sketch_id)
+        sketch = db.get(db.Key.from_path('Sketch', iden))
+        db.delete(sketch)
+        return webapp2.redirect('/series/')  
 
 
 class Login(BaseHandler):
@@ -290,3 +330,4 @@ class Logout(BaseHandler):
             del self.session['user_name']
             del self.session['user_email']
         return self.redirect("/")
+

@@ -16,3 +16,10 @@ class Sketch(db.Model):
     score = db.IntegerProperty()
     serie = db.ReferenceProperty(Serie, collection_name='sketches')
 
+
+class Comment(db.Model):
+    author_name = db.StringProperty()
+    author_email = db.EmailProperty()
+    text = db.StringProperty(required=True, multiline=True)
+    lastEdit = db.DateTimeProperty(auto_now=True)
+    sketch = db.ReferenceProperty(Sketch, collection_name='comments', required=True)
