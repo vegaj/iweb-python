@@ -152,13 +152,22 @@ class ShowSerie(BaseHandler):
     def get(self, serie_id):
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
+        sketchesAll = Sketch.all()
+        for s in sketchesAll:
+            if iden == s.serie:
+                sketches.append(s)   
+                
+        p = {
+            'serie': serie,
+            'sketches': sketches,
+        }     
 
         if not serie:
-            return self.render_template("series/show.html", {'serie': serie})
+            return self.render_template("series/show.html", p)
 
         serie.views += 1
         serie.put()
-        self.render_template('series/show.html', {'serie': serie})
+        self.render_template('series/show.html', p)
 
 
 class EditSerie(BaseHandler):
@@ -239,8 +248,58 @@ class NewSketch(BaseHandler):
 
 class EditSketch(BaseHandler):
 
-    def get(self, add_id):
-        webapp2.redirect("/")
+    def get(self, sketch_id):
+        iden = int(sketch_id)
+        sketch = db.get(db.Key.from_path('Sketch', iden))
+        error = None
+        p = {
+            'title': sketch.title,
+            'createdAt': sketch.createdAt,
+            'score': sketch.score,
+        }
+
+        self.render_template('sketches/edit.html', p)
+
+    def post(self, sketch_id):
+
+        error = None
+        p = {
+            'title': self.request.get('inputTitle'),
+            'createdAt': self.request.get('inputCreatedAt'),
+            'score': self.request.get('inputScore'),
+
+        }
+
+        # Input validation
+        if not p['title']:
+            error = 'El titulo esta vacio';
+            
+        try:
+            p['createdAt'] = date(p['createdAt'])
+        except ValueError:
+            error = 'La fecha esta vacia'
+            
+        try:
+            # Cambiar el modelo de int a float
+            p['score'] = long(p['score'])
+        except ValueError:
+            error = 'La puntuacion debe ser un numero'
+
+        if error:
+            p['error'] = error
+            return self.render_template("sketches/edit.html", p)
+
+        try:
+            iden = int(sketch_id)
+            sketch = db.get(db.Key.from_path('Sketch', iden))
+            sketch.title = p['title']
+            sketch.createdAt = p['createdAt']
+            sketch.score = p['score']
+            sketch.put()
+            return webapp2.redirect('/')
+        except Exception as e:
+            p['error'] = 'No se pudo editar por {}'.format(e.message)
+            return self.render_template("sketches/edit.html", p)
 
 
 class DeleteSketch(BaseHandler):
