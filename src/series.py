@@ -55,17 +55,6 @@ class ListSeries(BaseHandler):
         self.render_template('/series/list.html', {'series': series})
 
 
-#     def post(self):
-#         series = Serie(title = self.request.get('title'),
-#                        author_name = self.request.get('author_name'),
-#                        author_email = self.request.get('author_email'),
-#                        score = self.request.get('score')
-#                         )
-#         series.put()
-#         
-#         return webapp2.redirect('/series/')
-
-
 class ShowSerie(BaseHandler):
 
     def get(self, serie_id):

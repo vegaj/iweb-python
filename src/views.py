@@ -42,8 +42,6 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
 
-
-
 class Login(BaseHandler):
 
     def get(self):
