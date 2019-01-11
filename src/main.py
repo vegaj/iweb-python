@@ -1,4 +1,6 @@
-from views import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie, NewSketch, EditSketch, DeleteSketch, Login, Logout
+from views import Login, Logout
+from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie
+from sketches import NewSketch, EditSketch, DeleteSketch 
 import webapp2
 
 config = {'webapp2_extras.sessions': {
