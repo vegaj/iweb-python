@@ -8,7 +8,10 @@ from models import Serie
 class NewSerie(BaseHandler):
 
     def get(self):
-        return self.render_template("series/new.html", {})
+        if self.session.get('logged'):            
+            return self.render_template("series/new.html", {"author_name": self.session.get("user_name"), "author_email": self.session.get("user_email"),})
+        else:
+            return self.redirect("/login")
 
     def post(self):
 
@@ -19,7 +22,6 @@ class NewSerie(BaseHandler):
             'author_email': self.request.get('inputAuthorEmail'),
             'views': 0,
             'score': self.request.get('inputScore'),
-
         }
 
         # Input validation
