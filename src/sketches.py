@@ -50,7 +50,7 @@ class NewSketch(BaseHandler):
                         serie=serie1
                         )
             sk.put()
-            return self.redirect('/series/')
+            return self.redirect('/series/show/{}'.format(sk.serie.key().id()))
         except Exception as e:
             p['error'] = 'No se pudo crear por {}'.format(e.message)
             return self.render_template("error.html", {'code': 500, 'hint': p['error']})
@@ -111,7 +111,7 @@ class EditSketch(BaseHandler):
             sketch.createdAt = p['createdAt']
             sketch.score = p['score']
             sketch.put()
-            return self.redirect('/')
+            return self.redirect('/series/show/{}'.format(sketch.serie.key().id()))
         except Exception as e:
             p['error'] = 'No se pudo editar por {}'.format(e.message)
             return self.render_template("error.html", {'code': 500, 'hint': p['error']})
@@ -124,5 +124,6 @@ class DeleteSketch(BaseHandler):
         sketch = db.get(db.Key.from_path('Sketch', iden))
         if not sketch:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ningun sketch con esa ID'})
+        id_serie = sketch.serie.key().id()
         db.delete(sketch)
-        return self.redirect('/series/')
+        return self.redirect('/series/show/{}'.format(id_serie))
