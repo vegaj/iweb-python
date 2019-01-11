@@ -21,7 +21,7 @@
             <td>
                 <a href="/sketches/{{ sk.key().id() }}" class="btn btn-info">
                     <!-- En badge: el número de comentarios -->
-                    <span class="badge">10</span> <span class="glyphicon glyphicon-comment"></span>
+                    <span class="badge">{{ sk.comments.count() }}</span> <span class="glyphicon glyphicon-comment"></span>
                 </a>
                 <a  href="/sketches/edit/{{ sk.key().id() }}" class="btn btn-warning">
                     <span class="glyphicon glyphicon-pencil"></span>

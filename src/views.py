@@ -65,4 +65,8 @@ class Logout(BaseHandler):
             del self.session['user_name']
             del self.session['user_email']
         return self.redirect("/")
-
+    
+class Error(BaseHandler):
+    
+    def get(self, *args, **kwargs):
+        self.render_template("error.html", {'code' : 404, 'hint': 'No te lo has pensado bien'})
