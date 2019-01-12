@@ -25,7 +25,7 @@
                 <label for="inputAuthorName" class="col-sm-3 control-label">Nombre del Autor</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" name="inputAuthorName" id="inputAuthorName"
-                           placeholder="Nombre del autor" value="{{ author_name }}">
+                           placeholder="Nombre del autor" value="{{ author_name }}" readonly="readonly">
                 </div>
             </div>
            
@@ -33,7 +33,7 @@
                 <label for="inputAuthorEmail" class="col-sm-3 control-label">Correo del Autor</label>
                 <div class="col-sm-6">
                     <input type="email" class="form-control" name="inputAuthorEmail" id="inputAuthorEmail"
-                           placeholder="ej: pepe@mail.com" value="{{ author_email }}">
+                           placeholder="ej: pepe@mail.com" value="{{ author_email }}" readonly="readonly">
                 </div>
             </div>
             <div class="form-group">
@@ -61,53 +61,12 @@
             <div class="form-group text-center">
                 <button type="submit" value="submit" class="btn btn-warning">Crear Serie</button>
                
-            </div>
-            
-            
-            
-            
-            
-<!--             <a class="btn btn-primary" href="/new"> -->
-<!--     Crear anuncio -->
-<!--     <span style="margin-left: 5px;" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> -->
-<!-- </a> -->
-            
+            </div>         
             
             
         </form>
     </div>
     <div class="col-md-2"></div>
 </div>
-    <script>
-    /*
-        const DEF_IMG_URL = '/static/img/default.jpg';
-        var ALERTOR = undefined
-
-        function onImageChange(event) {
-
-            if(ALERTOR === undefined) ALERTOR = $('#preview-alert');
-
-            var val = event.currentTarget.value;
-            console.log(val)
-            val = (val !== undefined && val.trim() !== "")  ? val : DEF_IMG_URL;
-            console.log(`Valor actual _${val}_`);
-            if (val.startsWith('https://')|| val.startsWith("http://") || val.startsWith("/static/img/")) {
-                $('#image-preview').attr('src', val);
-                ALERTOR.attr('hidden', 'true');
-            } else {
-                ALERTOR.removeAttr('hidden');
-            }
-        }
-
-        function onImgError() {
-            var mod = $('#image-preview');
-            if (!mod.is('img')) {
-                //Si no se encuentra 'image-preview' no intentar para evitar (ciclos)
-                //alert(`HTML Element was expected to be img. Found ${mod} instead.` )
-                return;
-            }
-            ALERTOR.removeAttr('hidden');
-        }
-        */
-    </script>
+    
 {% endblock content %}
