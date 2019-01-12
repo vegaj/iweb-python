@@ -63,7 +63,7 @@ class EditSketch(BaseHandler):
         sketch = db.get(db.Key.from_path('Sketch', iden))
 
         if not sketch:
-            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ningun sketch con esa ID'})
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
 
         p = {
             'title': sketch.title,
@@ -106,7 +106,7 @@ class EditSketch(BaseHandler):
             iden = int(sketch_id)
             sketch = db.get(db.Key.from_path('Sketch', iden))
             if not sketch:
-                return self.render_template("error.html", {'code': 404, 'hint': 'No existe ningun sketch con esa ID'})
+                return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
             sketch.title = p['title']
             sketch.createdAt = p['createdAt']
             sketch.score = p['score']
@@ -123,7 +123,7 @@ class DeleteSketch(BaseHandler):
         iden = int(sketch_id)
         sketch = db.get(db.Key.from_path('Sketch', iden))
         if not sketch:
-            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ningun sketch con esa ID'})
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
         id_serie = sketch.serie.key().id()
         db.delete(sketch)
         return self.redirect('/series/show/{}'.format(id_serie))

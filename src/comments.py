@@ -10,7 +10,7 @@ class NewComment(BaseHandler):
         iden = int(sketch_id)
         sketch = db.get(db.Key.from_path('Sketch', iden))
         if not sketch:
-            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ningun sketch con esa ID'})
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
         return self.render_template("comments/new.html", {})
 
     def post(self, sketch_id):
@@ -37,7 +37,7 @@ class NewComment(BaseHandler):
         iden = int(sketch_id)
         sketch1 = db.get(db.Key.from_path('Sketch', iden))
         if not sketch1:
-            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ningun sketch con esa ID'})
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
 
         try:
             comment = Comment(author_name=p['author_name'],
