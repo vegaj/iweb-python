@@ -5,9 +5,21 @@ from views import BaseHandler
 from models import Sketch
 
 class ShowSketch(BaseHandler):
-    def get(self):
-        return self.render_template("error.html", {'code': 500, 'hint': 'No implementado'})
+    
+    def get(self, sketch_id):
+        iden = int(sketch_id)
+        sketch = db.get(db.Key.from_path('Sketch', iden))
+        if not sketch:
+            return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
+        
+        p = {
+            'title': sketch.title,
+            'createdAt': sketch.createdAt,
+            'score': sketch.score,
+        }
 
+        self.render_template('sketches/show.html', p)
+    
 
 class NewSketch(BaseHandler):
 

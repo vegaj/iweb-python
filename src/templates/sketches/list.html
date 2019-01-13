@@ -19,7 +19,7 @@
             <td>{{ sk.createdAt }}</td>
             <!-- TODO: Restringir -->
             <td>
-                <a href="/sketches/{{ sk.key().id() }}" class="btn btn-info">
+                <a href="/sketches/show/{{ sk.key().id() }}" class="btn btn-info">
                     <!-- En badge: el número de comentarios -->
                     <span class="badge">{{ sk.comments.count() }}</span> <span class="glyphicon glyphicon-comment"></span>
                 </a>

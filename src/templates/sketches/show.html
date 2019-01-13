@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <h1> Viñeta <span class="glyphicon glyphicon-picture" aria-hidden="true"></span></h1>
+    </div>
+</div>
+<br/>
+<br/>
+
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+	{% endif %}
+        <form class="form-horizontal" role="form" action="" method="post">
+            <div class="form-group">
+                <label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo:</label>
+
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="T&iacute;tulo de la vi&ntilde;eta" value="{{ title }}">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="inputName" class="col-sm-3 control-label">Fecha de creaci&oacute;n:</label>
+				
+                <div class="col-sm-6">
+                    <input class="form-control" name="inputCreatedAt" id="inputCreatedAt"
+                           placeholder="Fecha de creaci&oacute;n" value="{{ createdAt }}">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="inputScore" class="col-sm-3 control-label">Puntuaci&oacute;n:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputScore" id="inputScore"
+                           placeholder="Puntuaci&oacute;n de la vi&ntilde;eta" value="{{ score }}">
+                </div>
+            </div>
+                      
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+ 
+{% endblock content %}
