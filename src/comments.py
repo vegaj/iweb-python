@@ -47,7 +47,9 @@ class NewComment(BaseHandler):
                         sketch=sketch1
                         )
             comment.put()
-            return self.redirect('/series/')
+            #return self.redirect('/series/')
+            return self.redirect('/sketches/show/{}'.format(sketch1.key().id()))
+                     
         except Exception as e:
             p['error'] = 'No se pudo crear por {}'.format(e.message)
             return self.render_template("error.html", {'code': 500, 'hint': p['error']})
