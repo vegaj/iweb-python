@@ -12,14 +12,23 @@
     Crear serie
     <span style="margin-left: 5px;" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 </a>
+
+
 <br/>
 <br/>
 
 {% if series.count() > 0 %}
 <div class="row">
-    <div class="col-md-2"></div>
+	<!--  Botonera izquierda -->
+    <div class="col-md-2">
+    	<button class="btn btn-primary" onclick="mostViewed()">
+   			Más vistas
+    	<span style="margin-left: 5px;" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+		</button>
+    </div>
+    
     <div class="col-md-8">
-        <table class="table">
+        <table class="table" >
             <thead>
             <th>T&iacute;tulo</th>
             <th>Nombre del Autor</th>
@@ -28,7 +37,8 @@
             <th>Visualizaciones</th>
             <th>Opciones</th>
             </thead>
-            <tbody>
+            <tbody id="dataTable">
+            
             {% for s in series %}
             <tr>
                 <td>{{ s.title }}</td>
@@ -86,6 +96,16 @@
                     window.location.reload();
                 }
             }
-        </script>
-
+        
+		function mostViewed() {
+			var cars = ["Saab", "Volvo", "BMW"];
+			var text = "";
+ 			for (s in cars){
+ 				text +=cars[s] + " ";
+ 			}
+  			document.getElementById("dataTable").innerHTML = text;
+  			/* Para cargar un html nuevo aqui para los datos de la tabla:
+  			https://stackoverflow.com/questions/584751/inserting-html-into-a-div */
+		}
+         </script>
 {% endblock content %}

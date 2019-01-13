@@ -2,7 +2,6 @@ from google.appengine.ext import db
 
 
 class Serie(db.Model):
-
     title = db.StringProperty()
     score = db.IntegerProperty()
     author_name = db.StringProperty()
