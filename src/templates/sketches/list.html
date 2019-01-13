@@ -16,7 +16,7 @@
         <tr>
             <td>{{ sk.title }}</td>
             <td>{{ sk.score }}</td>
-            <td>{{ sk.createdAt }}</td>
+            <td>{{ sk.createdAt.strftime('%d-%m-%Y') }}</td>
             <!-- TODO: Restringir -->
             <td>
                 <a href="/sketches/show/{{ sk.key().id() }}" class="btn btn-info">
