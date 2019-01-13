@@ -36,10 +36,28 @@
                 <td>{{ s.author_email }}</td>
                 <td>{{ s.score }}</td>
                 <td>{{ s.views }}</td>
-                <td><a class="btn btn-info" href="/series/show/{{ s.key().id() }}">Mostrar</a></td>
-                <td><a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >Editar</a></td>
-                <td><a class="btn btn-danger" href="/series/delete/{{ s.key().id() }}">Eliminar</a></td>
-                <td><a class="btn btn-primary" href="/series/{{ s.key().id() }}/sketches/new">Nueva Vi&ntilde;eta</a></td>
+                <td>
+                	<a class="btn btn-info" href="/series/show/{{ s.key().id() }}">
+                		<span class="glyphicon glyphicon-eye-open"></span>
+                	</a>
+                </td>
+                <td>
+                	<a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >
+                		<span class="glyphicon glyphicon-pencil"></span>
+                	</a>
+                </td>
+                
+                <td>
+                	<a class="btn btn-danger" href="/series/delete/{{ s.key().id() }}">
+                		<span class="glyphicon glyphicon-trash"></span>
+                	</a>
+                </td>
+                <td>
+                	<a class="btn btn-primary" href="/series/{{ s.key().id() }}/sketches/new">
+                		<span class="glyphicon glyphicon-plus"></span>
+                		<span class="glyphicon glyphicon-picture"></span>
+                	</a>
+                </td>
             </tr>
             {% endfor %}
             </tbody>

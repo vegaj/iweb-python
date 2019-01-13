@@ -1,6 +1,6 @@
 from views import Login, Logout, Error
 from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie
-from sketches import NewSketch, EditSketch, DeleteSketch 
+from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch 
 from comments import NewComment, DeleteComment
 import webapp2
 from cgitb import handler
@@ -13,6 +13,7 @@ app = webapp2.WSGIApplication([
         ('/', ListSeries),
         ('/login', Login),
         ('/logout', Logout),
+        ('/sketches/show/([\d]+)', ShowSketch),
         ('/sketches/edit/([\d]+)', EditSketch),
         ('/sketches/delete/([\d]+)', DeleteSketch),
         ('/series/', ListSeries),
