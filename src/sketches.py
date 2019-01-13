@@ -12,13 +12,15 @@ class ShowSketch(BaseHandler):
         if not sketch:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
         
-        p = {
-            'title': sketch.title,
-            'createdAt': sketch.createdAt,
-            'score': sketch.score,
-        }
+#         p = {
+#             'title': sketch.title,
+#             'createdAt': sketch.createdAt,
+#             'score': sketch.score,
+#         }
+        sketch.put()
 
-        self.render_template('sketches/show.html', p)
+        comments = sketch.comments if sketch.comments else []
+        self.render_template('sketches/show.html', {'sketch': sketch, 'comments': comments})
     
 
 class NewSketch(BaseHandler):
