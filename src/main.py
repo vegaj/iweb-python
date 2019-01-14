@@ -3,6 +3,7 @@ from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie
 from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch 
 from comments import NewComment, DeleteComment
 import webapp2
+from webapp2 import Route
 from cgitb import handler
 
 config = {'webapp2_extras.sessions': {
@@ -24,7 +25,7 @@ app = webapp2.WSGIApplication([
         ('/series/([\d]+)/sketches/new', NewSketch),
         ('/sketches/([\d]+)/comments/new', NewComment),
         ('/comments/delete/([\d]+)', DeleteComment),
-        (r'/<:.*>', Error),
+        Route(r'/<:.*>', handler=Error),
         ],
         config=config,
         debug=True)
