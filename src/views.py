@@ -38,6 +38,8 @@ class BaseHandler(webapp2.RequestHandler):
             **template_args
     ):
         template_values['logged'] = self.session.get('logged')
+        template_values['user_email'] = self.session.get('user_email')
+        template_values['user_name'] = self.session.get('user_name')
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
 

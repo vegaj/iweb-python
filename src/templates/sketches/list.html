@@ -1,6 +1,5 @@
 <!-- Usa todo el espacio disponible -->
 <div>
-
     <h3>Vi&ntilde;etas {{ sketches.count() if  sketches.count() > 0 else ""}}</h3>
     {% if sketches and sketches.count() > 0%}
 
@@ -23,13 +22,14 @@
                     <!-- En badge: el número de comentarios -->
                     <span class="badge">{{ sk.comments.count() }}</span> <span class="glyphicon glyphicon-comment"></span>
                 </a>
+                {% if sk.belongs_to(user_email) %}
                 <a  href="/sketches/edit/{{ sk.key().id() }}" class="btn btn-warning">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
                 <a  href="/sketches/delete/{{ sk.key().id() }}" class="btn btn-danger">
                     <span class="glyphicon glyphicon-trash"></span>
                 </a>
-
+                {% endif %}
             </td>
         </tr>
     {% endfor %}
