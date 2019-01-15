@@ -1,6 +1,6 @@
 from views import Login, Logout, Error, Queries
-from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie, MostViewed, BestScore
-from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch 
+from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie, MostViewedSeries, BestScoreSeries
+from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch, MostCommentedSketches, BestScoreSketches 
 from comments import NewComment, DeleteComment
 import webapp2
 from webapp2 import Route
@@ -20,11 +20,13 @@ app = webapp2.WSGIApplication([
         ('/series/', ListSeries),
         ('/series/new', NewSerie),
         ('/series/show/([\d]+)', ShowSerie),
+        ('/series/show/([\d]+)/mostCommented/', MostCommentedSketches),
+        ('/series/show/([\d]+)/bestScore/', BestScoreSketches),        
         ('/series/edit/([\d]+)', EditSerie),
         ('/series/delete/([\d]+)', DeleteSerie),
         ('/series/([\d]+)/sketches/new', NewSketch),
-        ('/series/mostViewed/', MostViewed),
-        ('/series/bestScore/', BestScore),        
+        ('/series/mostViewed/', MostViewedSeries),
+        ('/series/bestScore/', BestScoreSeries),        
         ('/sketches/([\d]+)/comments/new', NewComment),
         ('/comments/delete/([\d]+)', DeleteComment),
         ('/queries/', Queries),

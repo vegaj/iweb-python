@@ -145,7 +145,8 @@ class DeleteSerie(BaseHandler):
         return self.redirect('/series/')
 
 
-class MostViewed(BaseHandler):
+class MostViewedSeries(BaseHandler):
+    
     def get(self):
         series = db.GqlQuery("SELECT * FROM Serie " +
                              "ORDER BY views DESC" )
@@ -153,11 +154,12 @@ class MostViewed(BaseHandler):
         self.render_template('/series/list.html', {'series': series})
         
         
-class BestScore(BaseHandler):
+class BestScoreSeries(BaseHandler):
+    
     def get(self):
         series = db.GqlQuery("SELECT * FROM Serie " +
                              "ORDER BY score DESC" )
-        
+         
         self.render_template('/series/list.html', {'series': series})
-        
+         
              
