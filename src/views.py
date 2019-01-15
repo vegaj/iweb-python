@@ -69,6 +69,11 @@ class Logout(BaseHandler):
         return self.redirect("/")
 
 
+class Queries(BaseHandler):
+    def get(self):
+        return self.render_template("queries.html", {'series': Serie.all(), 'sketches': Sketch.all()})
+
+
 class Error(BaseHandler):
     def get(self, *args, **kwargs):
         self.render_template("error.html", {'code': 404, 'hint': 'El recurso que buscabas no existe'})

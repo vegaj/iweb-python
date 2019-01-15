@@ -1,4 +1,4 @@
-from views import Login, Logout, Error
+from views import Login, Logout, Error, Queries
 from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie
 from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch 
 from comments import NewComment, DeleteComment
@@ -25,6 +25,7 @@ app = webapp2.WSGIApplication([
         ('/series/([\d]+)/sketches/new', NewSketch),
         ('/sketches/([\d]+)/comments/new', NewComment),
         ('/comments/delete/([\d]+)', DeleteComment),
+        ('/queries/', Queries),
         Route(r'/<:.*>', handler=Error),
         ],
         config=config,
