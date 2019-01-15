@@ -136,43 +136,35 @@ class DeleteSketch(BaseHandler):
         return self.redirect('/series/show/{}'.format(id_serie))
 
 
-
-
-
-
 class MostCommentedSketches(BaseHandler):
     
     def get(self, serie_id):
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
-
+        
         if not serie:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
-
-        #serie.views += 1
-        #serie.put()
         
-       
-
-        sketches = serie.sketches if serie.sketches else []
+        sketches = db.GqlQuery("SELECT * FROM Sketch " +
+                               "ORDER BY score DESC")
+        
+        #sk.comments.count()
+           
         self.render_template('series/show.html', {'serie': serie, 'sketches': sketches})
+        
      
 class BestScoreSketches(BaseHandler):
     
     def get(self, serie_id):
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
-
+        
         if not serie:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
-
         
         sketches = db.GqlQuery("SELECT * FROM Sketch " +
-                               
-                               "ORDER BY score DESC" )
+                               "WHERE serie = :1 " +
+                               "ORDER BY score DESC", serie )
  
- 
-        #sketches = serie.sketches if serie.sketches else []
         self.render_template('series/show.html', {'serie': serie, 'sketches': sketches})
-
 
