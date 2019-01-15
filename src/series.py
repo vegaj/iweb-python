@@ -55,7 +55,7 @@ class ListSeries(BaseHandler):
     def get(self):
         series = Serie.all()
         self.render_template('/series/list.html', {'series': series})
-
+           
 
 class ShowSerie(BaseHandler):
 
@@ -143,3 +143,21 @@ class DeleteSerie(BaseHandler):
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
         db.delete(serie)
         return self.redirect('/series/')
+
+
+class MostViewed(BaseHandler):
+    def get(self):
+        series = db.GqlQuery("SELECT * FROM Serie " +
+                             "ORDER BY views DESC" )
+        
+        self.render_template('/series/list.html', {'series': series})
+        
+        
+class BestScore(BaseHandler):
+    def get(self):
+        series = db.GqlQuery("SELECT * FROM Serie " +
+                             "ORDER BY score DESC" )
+        
+        self.render_template('/series/list.html', {'series': series})
+        
+             

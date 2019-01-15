@@ -12,8 +12,6 @@
     Crear serie
     <span style="margin-left: 5px;" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
 </a>
-
-
 <br/>
 <br/>
 
@@ -21,10 +19,15 @@
 <div class="row">
 	<!--  Botonera izquierda -->
     <div class="col-md-2">
-    	<button class="btn btn-primary" onclick="mostViewed()">
+		<a class="btn btn-primary" href="/series/mostViewed/">
    			Más vistas
-    	<span style="margin-left: 5px;" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-		</button>
+    		<span style="margin-left: 5px;" aria-hidden="true"></span>
+    	</a>
+    	<br><br>
+    	<a class="btn btn-primary" href="/series/bestScore/">
+   			Mejor puntuación
+    		<span style="margin-left: 5px;" aria-hidden="true"></span>
+    	</a>
     </div>
     
     <div class="col-md-8">
@@ -37,8 +40,8 @@
             <th>Visualizaciones</th>
             <th>Opciones</th>
             </thead>
-            <tbody id="dataTable">
-            
+			<!-- <tbody id="dataTable"> -->
+            <tbody>
             {% for s in series %}
             <tr>
                 <td>{{ s.title }}</td>
@@ -88,24 +91,14 @@
 </div>
 
 {% endif %}
-
-        <script type="text/javascript">
+	
+	<script type="text/javascript">
             window.onload = function() {
                 if(!window.location.hash) {
                     window.location = window.location + '#loaded';
                     window.location.reload();
                 }
             }
-        
-		function mostViewed() {
-			var cars = ["Saab", "Volvo", "BMW"];
-			var text = "";
- 			for (s in cars){
- 				text +=cars[s] + " ";
- 			}
-  			document.getElementById("dataTable").innerHTML = text;
-  			/* Para cargar un html nuevo aqui para los datos de la tabla:
-  			https://stackoverflow.com/questions/584751/inserting-html-into-a-div */
-		}
-         </script>
+   </script>
+   
 {% endblock content %}
