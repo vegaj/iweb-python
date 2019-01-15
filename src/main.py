@@ -1,8 +1,9 @@
-from views import Login, Logout, Error
+from views import Login, Logout, Error, Queries
 from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie, MostViewed, BestScore
 from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch 
 from comments import NewComment, DeleteComment
 import webapp2
+from webapp2 import Route
 from cgitb import handler
 
 config = {'webapp2_extras.sessions': {
@@ -26,7 +27,8 @@ app = webapp2.WSGIApplication([
         ('/series/bestScore/', BestScore),        
         ('/sketches/([\d]+)/comments/new', NewComment),
         ('/comments/delete/([\d]+)', DeleteComment),
-        (r'/<:.*>', Error),
+        ('/queries/', Queries),
+        Route(r'/<:.*>', handler=Error),
         ],
         config=config,
         debug=True)

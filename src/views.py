@@ -38,6 +38,8 @@ class BaseHandler(webapp2.RequestHandler):
             **template_args
     ):
         template_values['logged'] = self.session.get('logged')
+        template_values['user_email'] = self.session.get('user_email')
+        template_values['user_name'] = self.session.get('user_name')
         template = jinja_environment.get_template(filename)
         self.response.out.write(template.render(template_values))
 
@@ -65,8 +67,13 @@ class Logout(BaseHandler):
             del self.session['user_name']
             del self.session['user_email']
         return self.redirect("/")
-    
+
+
+class Queries(BaseHandler):
+    def get(self):
+        return self.render_template("queries.html", {'series': Serie.all(), 'sketches': Sketch.all()})
+
+
 class Error(BaseHandler):
-    
     def get(self, *args, **kwargs):
-        self.render_template("error.html", {'code' : 404, 'hint': 'No te lo has pensado bien'})
+        self.render_template("error.html", {'code': 404, 'hint': 'El recurso que buscabas no existe'})
