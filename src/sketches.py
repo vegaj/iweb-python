@@ -136,6 +136,7 @@ class DeleteSketch(BaseHandler):
         return self.redirect('/series/show/{}'.format(id_serie))
 
 
+###### Esta no está hecha (15-1-19) ########
 class MostCommentedSketches(BaseHandler):
     
     def get(self, serie_id):
@@ -146,10 +147,8 @@ class MostCommentedSketches(BaseHandler):
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
         
         sketches = db.GqlQuery("SELECT * FROM Sketch " +
-                               "ORDER BY score DESC")
-        
-        #sk.comments.count()
-           
+                               "WHERE serie = :1", serie )
+  
         self.render_template('series/show.html', {'serie': serie, 'sketches': sketches})
         
      

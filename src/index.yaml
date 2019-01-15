@@ -13,13 +13,13 @@ indexes:
 - kind: Sketch
   properties:
   - name: serie
-  - name: comments.count
+  - name: comments
     direction: desc
 
 - kind: Sketch
   properties:
   - name: serie
-  - name: comments
+  - name: comments.count
     direction: desc
 
 - kind: Sketch
