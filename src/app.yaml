@@ -19,3 +19,6 @@ libraries:
 builtins:
 - remote_api: on
 
+env_variables:
+  COMIC_KEY: "YOUR COMICVINE API KEY"
+  FLIKR_KEY: "YOUR FLICKR API KEY"
