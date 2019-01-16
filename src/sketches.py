@@ -118,9 +118,16 @@ class EditSketch(BaseHandler):
             error = 'El titulo esta vacio';
 
         try:
-            p['createdAt'] = datetime.strptime(p['createdAt'], '%Y-%m-%d')
+            date = datetime.strptime(p['createdAt'], '%Y-%m-%d')
+            print(date)
+            if date.year < 1900:
+                p['createdAt'] = datetime.today()
+                error = "La fecha debe ser mayor a 01-01-1900"
+            else:
+                p['createdAt'] = date
         except ValueError:
-            error = 'La fecha esta vacia'
+            p['createdAt'] = datetime.today()
+            error = 'La fecha es incorrecta'
 
         try:
             # Cambiar el modelo de int a float
