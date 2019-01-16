@@ -25,10 +25,9 @@
             
             <div class="form-group">
                 <label for="inputName" class="col-sm-3 control-label">Fecha de creaci&oacute;n:</label>
-				{{ createdAt }}
                 <div class="col-sm-6">
                     <input type="date" class="form-control" name="inputCreatedAt" id="inputCreatedAt"
-                           placeholder="Fecha de creaci&oacute;n" value="{{ createdAt }}">
+                           placeholder="Fecha de creaci&oacute;n" value="{{ createdAt.strftime('%Y-%m-%d') }}">
                 </div>
             </div>
             
