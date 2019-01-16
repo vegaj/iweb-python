@@ -54,7 +54,7 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
+                    data-target="#navbar-collapse-1, #navbar-collapse-2">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -62,23 +62,30 @@
             </button>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+        <div class="collapse navbar-collapse navbar-left" id="navbar-collapse-1">
+            <ul class="nav navbar-nav pull-right">
                 <li>
                     <a href="/series/"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Series</a>
-
                 </li>
                 <li>
                     <!-- <a href="/login"> <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</a> -->
                 </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-2">
+            <ul class="nav navbar-nav pull-right">
+                {% if logged %}
                 <li>
-                    <!-- SignIn/SignOut -->
-                    {% if logged %}
-                        <a href="/logout" id="logout">Logout</a>
-                    {% else %}
-                        <a href="/login">Login</a>
-                    {% endif %}
+                    <span class="navbar-brand">Hola {{ user_name }}</span>
                 </li>
+                <li>
+                        <a href="/logout" id="logout">Logout</a>
+                </li>
+                {% else %}
+                <li>
+                        <a href="/login">Login</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
         <!-- /.navbar-collapse -->

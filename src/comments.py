@@ -4,9 +4,12 @@ from google.appengine.ext import db
 from views import BaseHandler
 from models import Comment
 
+
 class NewComment(BaseHandler):
 
     def get(self, sketch_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
         iden = int(sketch_id)
         sketch = db.get(db.Key.from_path('Sketch', iden))
         if not sketch:

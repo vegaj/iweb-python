@@ -8,12 +8,15 @@ from models import Serie
 class NewSerie(BaseHandler):
 
     def get(self):
-        if self.session.get('logged'):            
+        if self.session.get('logged') is not None:
             return self.render_template("series/new.html", {"author_name": self.session.get("user_name"), "author_email": self.session.get("user_email"),})
         else:
             return self.redirect("/login")
 
     def post(self):
+
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
 
         error = None
         p = {
@@ -76,11 +79,17 @@ class ShowSerie(BaseHandler):
 class EditSerie(BaseHandler):
 
     def get(self, serie_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
+
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
 
         if not serie:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
+
+        if not serie.belongs_to(self.session.get('user_email')):
+            return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para editar la serie'})
 
         error = None
         p = {
@@ -93,6 +102,8 @@ class EditSerie(BaseHandler):
         self.render_template('series/edit.html', p)
 
     def post(self, serie_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
 
         error = None
         p = {
@@ -105,7 +116,7 @@ class EditSerie(BaseHandler):
 
         # Input validation
         if not p['title']:
-            error = 'El titulo esta vacio';
+            error = 'El titulo esta vacio'
         if not p['author_name']:
             error = 'El autor esta vacio'
         if not p['author_email']:
@@ -123,9 +134,9 @@ class EditSerie(BaseHandler):
         try:
             iden = int(serie_id)
             serie = db.get(db.Key.from_path('Serie', iden))
+            if not serie.belongs_to(self.session.get('user_email')):
+                return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para editar la serie'})
             serie.title = p['title']
-            serie.author_name = p['author_name']
-            serie.author_email = p['author_email']
             serie.score = p['score']
             serie.put()
             return self.redirect('/')
@@ -137,9 +148,16 @@ class EditSerie(BaseHandler):
 class DeleteSerie(BaseHandler):
 
     def get(self, serie_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
+
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
         if not serie:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
+
+        if not serie.belongs_to(self.session.get('user_email')):
+            return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para borrar la serie'})
+
         db.delete(serie)
         return self.redirect('/series/')
