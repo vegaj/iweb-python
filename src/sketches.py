@@ -26,13 +26,20 @@ class ShowSketch(BaseHandler):
 class NewSketch(BaseHandler):
 
     def get(self, serie_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
+
         iden = int(serie_id)
         serie = db.get(db.Key.from_path('Serie', iden))
         if not serie:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
+        if not serie.belongs_to(self.session.get('user_email')):
+            return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para crear un sketch en la serie'})
         return self.render_template("sketches/new.html", {})
 
     def post(self, serie_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
         error = None
         p = {'title': self.request.get('inputTitle'),
              'score': self.request.get('inputScore')
@@ -56,7 +63,9 @@ class NewSketch(BaseHandler):
         serie1 = db.get(db.Key.from_path('Serie', iden))
         if not serie1:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
-
+        if not serie1.belongs_to(self.session.get('user_email')):
+            return self.render_template("error.html",
+                                        {'code': 403, 'hint': 'No tienes permiso para crear un sketch en la serie'})
         try:
             sk = Sketch(title=p['title'],
                         createdAt=datetime.now(),
@@ -73,11 +82,16 @@ class NewSketch(BaseHandler):
 class EditSketch(BaseHandler):
 
     def get(self, sketch_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
         iden = int(sketch_id)
         sketch = db.get(db.Key.from_path('Sketch', iden))
 
         if not sketch:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
+        if not sketch.serie.belongs_to(self.session.get('user_email')):
+            return self.render_template("error.html",
+                                        {'code': 403, 'hint': 'No tienes permiso para editar un sketch en la serie'})
 
         p = {
             'title': sketch.title,
@@ -88,6 +102,8 @@ class EditSketch(BaseHandler):
         self.render_template('sketches/edit.html', p)
 
     def post(self, sketch_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
 
         error = None
         p = {
@@ -121,6 +137,9 @@ class EditSketch(BaseHandler):
             sketch = db.get(db.Key.from_path('Sketch', iden))
             if not sketch:
                 return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
+            if not sketch.serie.belongs_to(self.session.get('user_email')):
+                return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para editar la serie'})
+
             sketch.title = p['title']
             sketch.createdAt = p['createdAt']
             sketch.score = p['score']
@@ -134,10 +153,15 @@ class EditSketch(BaseHandler):
 class DeleteSketch(BaseHandler):
 
     def get(self, sketch_id):
+        if self.session.get('logged') is None:
+            return self.redirect("/login")
         iden = int(sketch_id)
         sketch = db.get(db.Key.from_path('Sketch', iden))
         if not sketch:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
+        if not sketch.serie.belongs_to(self.session.get('user_email')):
+            return self.render_template("error.html",
+                                        {'code': 403, 'hint': 'No tienes permiso para borrar un sketch en la serie'})
         id_serie = sketch.serie.key().id()
         db.delete(sketch)
         return self.redirect('/series/show/{}'.format(id_serie))
