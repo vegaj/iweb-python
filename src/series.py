@@ -88,7 +88,7 @@ class EditSerie(BaseHandler):
         if not serie:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
 
-        if serie.author_name != self.session.get('user_name') or serie.author_email != self.session.get('user_email'):
+        if not serie.belongs_to(self.session.get('user_email')):
             return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para editar la serie'})
 
         error = None
@@ -134,7 +134,7 @@ class EditSerie(BaseHandler):
         try:
             iden = int(serie_id)
             serie = db.get(db.Key.from_path('Serie', iden))
-            if serie.author_name != self.session.get('user_name') or serie.author_email != self.session.get('user_email'):
+            if not serie.belongs_to(self.session.get('user_email')):
                 return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para editar la serie'})
             serie.title = p['title']
             serie.score = p['score']
@@ -156,7 +156,7 @@ class DeleteSerie(BaseHandler):
         if not serie:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna Serie con esa ID'})
 
-        if serie.author_name != self.session.get('user_name') or serie.author_email != self.session.get('user_email'):
+        if not serie.belongs_to(self.session.get('user_email')):
             return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para borrar la serie'})
 
         db.delete(serie)
