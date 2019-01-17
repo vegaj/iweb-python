@@ -170,5 +170,5 @@ class DeleteSketch(BaseHandler):
             return self.render_template("error.html",
                                         {'code': 403, 'hint': 'No tienes permiso para borrar un sketch en la serie'})
         id_serie = sketch.serie.key().id()
-        db.delete(sketch)
+        sketch.cascade()
         return self.redirect('/series/show/{}'.format(id_serie))
