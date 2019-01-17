@@ -12,6 +12,11 @@ class Serie(db.Model):
     def belongs_to(self, user_email):
         return util.is_authorized(user_email, self.author_email)
 
+    def cascade(self):
+        for s in self.sketches:
+            s.cascade()
+        db.delete(self)
+
 
 class Sketch(db.Model):
     title = db.StringProperty()
@@ -21,6 +26,11 @@ class Sketch(db.Model):
 
     def belongs_to(self, user_email):
         return util.is_authorized(user_email, self.serie.author_email)
+
+    def cascade(self):
+        for c in self.comments:
+            c.cascade()
+        db.delete(self)
 
 
 class Comment(db.Model):
@@ -32,3 +42,6 @@ class Comment(db.Model):
 
     def belongs_to(self, user_email):
         return util.is_authorized(user_email, self.author_email)
+
+    def cascade(self):
+        db.delete(self)

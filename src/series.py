@@ -159,5 +159,6 @@ class DeleteSerie(BaseHandler):
         if not serie.belongs_to(self.session.get('user_email')):
             return self.render_template("error.html", {'code': 403, 'hint': 'No tienes permiso para borrar la serie'})
 
-        db.delete(serie)
+        serie.cascade()
         return self.redirect('/series/')
+
