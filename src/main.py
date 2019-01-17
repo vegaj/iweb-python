@@ -5,7 +5,7 @@ from comments import NewComment, DeleteComment
 import webapp2
 from webapp2 import Route
 from cgitb import handler
-
+from comicvines import ComicVine
 config = {'webapp2_extras.sessions': {
     'secret_key': 'my-super-secret-key',
 }}
@@ -25,6 +25,7 @@ app = webapp2.WSGIApplication([
         ('/series/([\d]+)/sketches/new', NewSketch),
         ('/sketches/([\d]+)/comments/new', NewComment),
         ('/comments/delete/([\d]+)', DeleteComment),
+        ('/comicvine/', ComicVine),
         Route(r'/<:.*>', handler=Error),
         ],
         config=config,
