@@ -31,7 +31,7 @@
         }
     </style>
 
-    <form href="/query" class="form-horizontal panel panel-default full-padded form-panel-custom" role="form"
+    <form href="/series/search/" class="form-horizontal panel panel-default full-padded form-panel-custom" role="form"
           method="post">
         <div class="row-eq-height">
         <div class="col-md-3">
@@ -58,10 +58,10 @@
                 <div class="form-group side-padding">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-8">
-                        <div class="row">
+                        <div class="row">                        
+                            <input type="radio" name="searchterm" value="sbytitle" checked="checked"> T&iacute;tulo &nbsp;
                             <input type="radio" name="searchterm" value="sbemail"> Email del autor &nbsp;
                             <input type="radio" name="searchterm" value="sbynombre"> Nombre del autor &nbsp;
-                            <input type="radio" name="searchterm" value="sbytitle"> T&iacute;tulo &nbsp;
                         </div>
                     </div>
                     <div class="col-sm-2"></div>
@@ -70,7 +70,7 @@
         </div>
         <div class="row">
             <div class="col-sm-3"></div>
-            <button class="col-sm-6 btn btn-info button-custom">Buscar</button>
+            <button class="col-sm-6 btn btn-info button-custom" type="submit" value="submit">Buscar</button>
             <div class="col-sm-3"></div>
         </div>
     </form>
@@ -99,19 +99,12 @@
                                 <a class="btn btn-info" href="/series/show/{{ s.key().id() }}">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                            </td>
-                            <td>
                                 <a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                            </td>
-
-                            <td>
                                 <a class="btn btn-danger" href="/series/delete/{{ s.key().id() }}">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
-                            </td>
-                            <td>
                                 <a class="btn btn-primary" href="/series/{{ s.key().id() }}/sketches/new">
                                     <span class="glyphicon glyphicon-plus"></span>
                                     <span class="glyphicon glyphicon-picture"></span>
