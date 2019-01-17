@@ -180,3 +180,11 @@ class BestScoreSketches(BaseHandler):
         sketches = db.GqlQuery("SELECT * FROM Sketch ORDER BY score DESC")
  
         self.render_template('queries.html', {'sketches': sketches})
+        
+class TopDateSketches(BaseHandler):
+    
+    def get(self):
+        
+        sketches = db.GqlQuery("SELECT * FROM Sketch ORDER BY createdAt DESC")
+ 
+        self.render_template('queries.html', {'sketches': sketches})
