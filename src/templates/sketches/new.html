@@ -1,49 +1,112 @@
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
-<div class="row">
-    <div class="col-lg-12 text-center">
-        <h1>Nueva Vi&ntilde;eta <span class="glyphicon glyphicon-plus" style="color: #ffe57f" aria-hidden="true"></span></h1>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>Nueva Vi&ntilde;eta <span class="glyphicon glyphicon-plus" style="color: #ffe57f"
+                                          aria-hidden="true"></span></h1>
+        </div>
     </div>
-</div>
-<br/>
-<br/>
-<div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-        {% if error %}
-        <div class="alert alert-danger">{{ error }}</div>
-        {% endif %}
-        <form class="form-horizontal" role="form" action="" method="post">
-            <div class="form-group">
-                <label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" value="{{ title }}" name="inputTitle" id="inputTitle" placeholder="T&iacute;tulo del vi&ntilde;eta">
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            {% if error %}
+                <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+            <form class="form-horizontal" role="form" action="" method="post">
+                <div class="form-group">
+                    <label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" value="{{ title }}" name="inputTitle" id="inputTitle"
+                               placeholder="T&iacute;tulo del vi&ntilde;eta">
+                    </div>
                 </div>
-            </div>
-            <!-- <div class="form-group">
-                <label for="inputCreatedAt" class="col-sm-3 control-label">Fecha de creaci&oacute;n:</label>
-                <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputCreatedAt" id="inputCreatedAt"
-                           placeholder="Fecha de creacion" value="{{ createdAt }}">
+
+                <div class="form-group">
+                    <label for="inputScore" class="col-sm-3 control-label">Puntuaci&oacute;n</label>
+                    <div class="col-sm-6">
+                        <input type="number" class="form-control" name="inputScore" id="inputScore"
+                               placeholder="Puntuaci&oacute;n del vi&ntilde;eta" value="{{ score }}">
+                    </div>
                 </div>
-            </div> -->
-           
-            <div class="form-group">
-                <label for="inputScore" class="col-sm-3 control-label">Puntuaci&oacute;n</label>
-                <div class="col-sm-6">
-                    <input type="number" class="form-control" name="inputScore" id="inputScore"
-                           placeholder="Puntuaci&oacute;n del vi&ntilde;eta" value="{{ score }}">
+                <div class="form-group">
+                    <label for="inputPhoto" class="col-sm-3 control-label">Foto</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" name="inputPhoto" id="inputPhoto"
+                               placeholder="Foto de la vi&ntilde;eta" value="{{ photo_url }}" readonly="readonly">
+                    </div>
                 </div>
-            </div>
-                    
-            <div class="form-group text-center">
-                <button type="submit" value="submit" class="btn btn-warning">Crear Vi&ntilde;eta</button> 
-            </div>   
-            
-        </form>
+
+                <div class="form-group text-center">
+                    <button type="submit" value="submit" class="btn btn-warning">Crear Vi&ntilde;eta</button>
+                </div>
+
+            </form>
+            <label for="inputSearchPhoto" class="col-sm-4 control-label">Busca y selecciona foto:</label>
+            <input type="text" class="form-control" name="inputSearchPhoto" id="inputSearchPhoto"
+                   placeholder="Buscar foto"/>
+            <div id="results" class="row"></div>
+        </div>
+        <div class="col-md-2">
+        </div>
     </div>
-    <div class="col-md-2"></div>
-</div>
-    
+
 {% endblock content %}
+
+{% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.3.3/rxjs.umd.js"></script>
+    <script>
+        var flickrURL = "https://api.flickr.com/services/rest/";
+        var inputSearchElem = document.getElementById('inputSearchPhoto');
+        var inputSearch = rxjs.fromEvent(inputSearchElem, 'input').pipe(
+            rxjs.operators.map((e) => e.target.value),
+            rxjs.operators.filter(text => text.length > 1),
+            rxjs.operators.debounceTime(600),
+            rxjs.operators.distinctUntilChanged()
+        );
+        inputSearch.subscribe(val => getPhotos(val));
+
+        var results = $('#results');
+        var selectedPhoto = $('#inputPhoto');
+
+        function getPhotos(tag) {$.ajax({
+            url: flickrURL,
+            jsonp: 'jsoncallback',
+            dataType: "jsonp",
+            data: {
+                method: 'flickr.photos.search',
+                format: 'json',
+                api_key: '4aa8f09e34633de3ebec605bae969ec3',
+                tags: tag,
+                per_page: '10'
+            },
+            type: 'GET',
+        }).then(data => {results.empty(); data.photos.photo.map(photo => getPhotoUrl(photo)).forEach(p => appendPhoto(p))})}
+
+        function getPhotoUrl(photo){
+            return `http://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_z.jpg`
+        }
+
+        function appendPhoto(photo){
+            results.append(`<div onclick="changePhotoUrl('${photo}')" class="col-md-8"><img class="click-me" style="cursor:pointer" src=${photo}/></div>`)
+        }
+
+        function changePhotoUrl(url) {
+            window.scrollTo(0, 0);
+            selectedPhoto.attr('value', url)
+        }
+    </script>
+    <style>
+        .click-me{
+            margin-top: 1em;
+            margin-bottom: 1em;
+            border: 3px solid gray;
+        }
+
+        .click-me:hover{
+            border: 3px solid blue;
+        }
+    </style>
+{% endblock %}

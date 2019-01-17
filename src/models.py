@@ -22,6 +22,7 @@ class Sketch(db.Model):
     title = db.StringProperty()
     createdAt = db.DateTimeProperty(auto_now_add=True)
     score = db.IntegerProperty()
+    photo_url = db.StringProperty()
     serie = db.ReferenceProperty(Serie, collection_name='sketches')
 
     def belongs_to(self, user_email):
