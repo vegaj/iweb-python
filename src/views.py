@@ -67,7 +67,10 @@ class Logout(BaseHandler):
             del self.session['user_name']
             del self.session['user_email']
         return self.redirect("/")
-
+    
+class Queries(BaseHandler):
+    def get(self):
+        return self.render_template("queries.html", {'series': Serie.all(), 'sketches': Sketch.all()})
 
 class Error(BaseHandler):
     def get(self, *args, **kwargs):
