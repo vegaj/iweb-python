@@ -136,7 +136,7 @@ class DeleteSketch(BaseHandler):
         return self.redirect('/series/show/{}'.format(id_serie))
 
 
-###### Esta no está hecha (15-1-19) ########
+###### Esta no esta hecha (15-1-19) ########
 class MostCommentedSketches(BaseHandler):
     
     def get(self, serie_id):
