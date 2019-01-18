@@ -31,35 +31,36 @@
         }
     </style>
 
-    <form href="/series/search/" class="form-horizontal panel panel-default full-padded form-panel-custom" role="form"
+    <form action="/series/search/" class="form-horizontal panel panel-default full-padded form-panel-custom" role="form"
           method="post">
         <div class="row-eq-height">
-        <div class="col-md-3">
-			<a class="btn btn-primary" href="/series/mostViewed/"> Series m&aacute;s vistas
-				<span style="margin-left: 5px;" aria-hidden="true"></span>
-			</a> <br><br>
-			<a class="btn btn-primary" href="/sketches/bestScore/"> Top vi&ntilde;etas
-				<span style="margin-left: 5px;" aria-hidden="true"></span>
-			</a> <br><br>
-			<a class="btn btn-primary" href="/sketches/topDate/"> Vi&ntilde;etas ordenadas por fecha
-				<span style="margin-left: 5px;" aria-hidden="true"></span>
-			</a> <br><br>
-    		<a class="btn btn-primary" href="/series/bestScore/"> Top series
-    			<span style="margin-left: 5px;" aria-hidden="true"></span>
-    		</a> 
-		</div>
+            <div class="col-md-3">
+                <a class="btn btn-primary" href="/series/mostViewed/"> Series m&aacute;s vistas
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a> <br><br>
+                <a class="btn btn-primary" href="/sketches/bestScore/"> Top vi&ntilde;etas
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a> <br><br>
+                <a class="btn btn-primary" href="/sketches/topDate/"> Vi&ntilde;etas ordenadas por fecha
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a> <br><br>
+                <a class="btn btn-primary" href="/series/bestScore/"> Top series
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a>
+            </div>
             <div class="col-sm-6 panel panel-default">
                 <h2>B&uacute;squeda de series</h2>
                 <div class="form-group side-padding">
                     <input class="form-control"
-                           type="text" value="" name="serieInput"
+                           type="text" value="{{ serieInput }}" name="serieInput"
                            placeholder="Termino de busqueda...">
                 </div>
                 <div class="form-group side-padding">
                     <div class="col-sm-2"></div>
                     <div class="col-sm-8">
-                        <div class="row">                        
-                            <input type="radio" name="searchterm" value="sbytitle" checked="checked"> T&iacute;tulo &nbsp;
+                        <div class="row">
+                            <input type="radio" name="searchterm" value="sbytitle" checked="checked"> T&iacute;tulo
+                            &nbsp;
                             <input type="radio" name="searchterm" value="sbemail"> Email del autor &nbsp;
                             <input type="radio" name="searchterm" value="sbynombre"> Nombre del autor &nbsp;
                         </div>
@@ -75,7 +76,7 @@
         </div>
     </form>
     {% if series %}
-        <h3>Series {{ series.count() if  series.count() > 0 else "" }}</h3>
+        <h3>Series {{ series.__len__ if  series.__len__ > 0 else "" }}</h3>
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
@@ -116,9 +117,13 @@
                 </table>
             </div>
         </div>
+    {% else %}
+        <div  style="font-size: 20px; margin-top: 1em; margin-bottom: 1em;" class="label label-info col-md-12">No hay series que mostrar</div>
     {% endif %}
     {% if sketches %}
         {% include "sketches/list.html" %}
+    {% else %}
+        <div style="font-size: 20px; margin-top: 2em; margin-bottom: 1em;" class="label label-info col-md-12">No hay viñetas que mostrar</div>
     {% endif %}
 
 {% endblock content %}

@@ -166,13 +166,15 @@ class DeleteSketch(BaseHandler):
         id_serie = sketch.serie.key().id()
         sketch.cascade()
         return self.redirect('/series/show/{}'.format(id_serie))
-    
+
+
 class BestScoreSketches(BaseHandler):
     
     def get(self):
         sketches = db.GqlQuery("SELECT * FROM Sketch ORDER BY score DESC")
         self.render_template('queries.html', {'sketches': sketches})
-        
+
+
 class TopDateSketches(BaseHandler):
     
     def get(self):

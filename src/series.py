@@ -161,18 +161,19 @@ class DeleteSerie(BaseHandler):
 
         serie.cascade()
         return self.redirect('/series/')
-    
+
+
 class MostViewedSeries(BaseHandler):
     
     def get(self):
-        series = db.GqlQuery("SELECT * FROM Serie ORDER BY views DESC")        
+        series = db.GqlQuery("SELECT * FROM Serie ORDER BY views DESC").fetch(None)
         self.render_template('queries.html', {'series': series})
         
         
 class BestScoreSeries(BaseHandler):
     
     def get(self):
-        series = db.GqlQuery("SELECT * FROM Serie ORDER BY score DESC")         
+        series = db.GqlQuery("SELECT * FROM Serie ORDER BY score DESC").fetch(None)
         self.render_template('queries.html', {'series': series})
 
 
@@ -192,5 +193,17 @@ class SearchSeries (BaseHandler):
         if radio == 'sbynombre':
             searchBy = 'author_name'
 
-        series = Serie().all().filter("{} =".format(searchBy), searchValue)
-        return self.render_template("queries.html", {'series': series})
+        series = Serie().all().fetch(limit=None, offset=0)
+        res = []
+
+        for s in series:
+            val = s.title
+            if searchBy is 'author_email':
+                val = s.author_email
+            if searchBy is 'author_name':
+                val = s.author_name
+
+            if searchValue.upper() in val.upper():
+                res.append(s)
+
+        return self.render_template("queries.html", {'series': res, 'serieInput': searchValue})
