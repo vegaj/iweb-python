@@ -1,6 +1,6 @@
-from views import Login, Logout, Error
-from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie
-from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch 
+from views import Login, Logout, Error, Queries
+from series import NewSerie, ListSeries, ShowSerie, EditSerie, DeleteSerie, MostViewedSeries, BestScoreSeries, SearchSeries
+from sketches import NewSketch, EditSketch, DeleteSketch, ShowSketch, BestScoreSketches, TopDateSketches
 from comments import NewComment, DeleteComment
 import webapp2
 from webapp2 import Route
@@ -26,6 +26,12 @@ app = webapp2.WSGIApplication([
         ('/sketches/([\d]+)/comments/new', NewComment),
         ('/comments/delete/([\d]+)', DeleteComment),
         ('/comicvine/', ComicVine),
+        ('/series/mostViewed/', MostViewedSeries),
+        ('/series/bestScore/', BestScoreSeries),
+        ('/sketches/bestScore/', BestScoreSketches),
+        ('/sketches/topDate/', TopDateSketches),
+        ('/series/search/', SearchSeries),
+        ('/queries/', Queries), 
         Route(r'/<:.*>', handler=Error),
         ],
         config=config,

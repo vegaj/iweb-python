@@ -17,8 +17,8 @@
 
 {% if series.count() > 0 %}
 <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
         <table class="table">
             <thead>
             <th>T&iacute;tulo</th>
@@ -40,26 +40,19 @@
                 	<a class="btn btn-info" href="/series/show/{{ s.key().id() }}">
                 		<span class="glyphicon glyphicon-eye-open"></span>
                 	</a>
-                </td>
                 {% if user_name == s.author_name and user_email == s.author_email %}
-                <td>
                 	<a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >
                 		<span class="glyphicon glyphicon-pencil"></span>
                 	</a>
-                </td>
-                
-                <td>
                 	<a class="btn btn-danger" href="/series/delete/{{ s.key().id() }}">
                 		<span class="glyphicon glyphicon-trash"></span>
                 	</a>
-                </td>
-                <td>
                 	<a class="btn btn-primary" href="/series/{{ s.key().id() }}/sketches/new">
                 		<span class="glyphicon glyphicon-plus"></span>
                 		<span class="glyphicon glyphicon-picture"></span>
                 	</a>
+                {% endif %}                
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
             </tbody>
