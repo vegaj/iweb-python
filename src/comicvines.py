@@ -36,8 +36,13 @@ class ComicVine(BaseHandler):
             ctx['error'] = u"El filtro no es válido"
         elif status is 101:
             ctx['error'] = u"No se ha encontrado nada"
+        elif status is 100:
+            ctx['error'] = u"Se ha excecido el límite de consultas sobre la api."
+            ctx['code'] = 403
+            return self.render_template("error.html", ctx);
         else:
             ctx['error'] = u'El servicio no está disponible'
+            ctx['code'] = 500
             return self.render_template("error.html", ctx)
 
         return self.render_template("comicvine.html", ctx)
