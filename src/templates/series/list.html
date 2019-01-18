@@ -40,7 +40,7 @@
                 	<a class="btn btn-info" href="/series/show/{{ s.key().id() }}">
                 		<span class="glyphicon glyphicon-eye-open"></span>
                 	</a>
-                {% if user_name == s.author_name and user_email == s.author_email %}
+                {% if s.belongs_to(user_email) %}
                 	<a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}" >
                 		<span class="glyphicon glyphicon-pencil"></span>
                 	</a>
