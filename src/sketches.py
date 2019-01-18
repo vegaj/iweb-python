@@ -36,7 +36,8 @@ class NewSketch(BaseHandler):
             return self.redirect("/login")
         error = None
         p = {'title': self.request.get('inputTitle'),
-             'score': self.request.get('inputScore')
+             'score': self.request.get('inputScore'),
+             'photo_url': self.request.get('inputPhoto')
              }
 
         # Input validation
@@ -64,7 +65,8 @@ class NewSketch(BaseHandler):
             sk = Sketch(title=p['title'],
                         createdAt=datetime.now(),
                         score=p['score'],
-                        serie=serie1
+                        serie=serie1,
+                        photo_url=p['photo_url']
                         )
             sk.put()
             return self.redirect('/series/show/{}'.format(sk.serie.key().id()))
@@ -91,6 +93,7 @@ class EditSketch(BaseHandler):
             'title': sketch.title,
             'createdAt': sketch.createdAt,
             'score': sketch.score,
+            'photo_url': sketch.photo_url
         }
 
         self.render_template('sketches/edit.html', p)
@@ -104,7 +107,7 @@ class EditSketch(BaseHandler):
             'title': self.request.get('inputTitle'),
             'createdAt': self.request.get('inputCreatedAt'),
             'score': self.request.get('inputScore'),
-
+            'photo_url': self.request.get('inputPhoto')
         }
 
         # Input validation
@@ -113,7 +116,6 @@ class EditSketch(BaseHandler):
 
         try:
             date = datetime.strptime(p['createdAt'], '%Y-%m-%d')
-            print(date)
             if date.year < 1900:
                 p['createdAt'] = datetime.today()
                 error = "La fecha debe ser mayor a 01-01-1900"
@@ -144,6 +146,7 @@ class EditSketch(BaseHandler):
             sketch.title = p['title']
             sketch.createdAt = p['createdAt']
             sketch.score = p['score']
+            sketch.photo_url = p['photo_url']
             sketch.put()
             return self.redirect('/series/show/{}'.format(sketch.serie.key().id()))
         except Exception as e:
