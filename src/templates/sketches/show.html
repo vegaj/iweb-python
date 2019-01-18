@@ -58,9 +58,12 @@
     <div class="col-xs-1 col-md-1"></div>
     <div class="col-xs-1 col-md-1"></div>
     <div class="col-xs-10 col-sm-10">
-    <div class="col-xs-10 col-sm-10"><div class="form-group">
+    <div class="col-xs-10 col-sm-10">
+        {% if sketch.photo_url %}
+        <div class="form-group">
                 <img src="{{ sketch.photo_url }}" alt="photo"/>
-    </div>
+        </div>
+        {% endif %}
     </div>
     
 </div>
