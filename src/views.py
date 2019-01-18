@@ -87,22 +87,7 @@ class Queries(BaseHandler):
         if radio == 'sbynombre':
             searchBy = 'author_name'
         
-        
-        print("****************radio")
-        print(radio)
-        print("searchBy")
-        print(searchBy.strip())
-        print("searchValue")
-        print(searchValue)
-        
-        
-#         series = db.GqlQuery("SELECT * FROM Serie WHERE "+search+" LIKE "+"%"+serie+"%"+" ORDER BY score DESC")
-        series = db.GqlQuery("SELECT * FROM Serie WHERE "+searchBy+" = :1 ORDER BY score DESC",searchValue)
-        #series = db.GqlQuery("SELECT * FROM Serie WHERE "+searchBy+" LIKE %s ORDER BY score DESC", "%{}%".format( searchValue)) 
-        
-        
-        print("***series***")
-        print series
+        series = db.GqlQuery("SELECT * FROM Serie WHERE "+searchBy+" = :1 ORDER BY score DESC",searchValue) 
         
         self.render_template('queries.html', {'series': series})
     
