@@ -100,6 +100,7 @@
                                 <a class="btn btn-info" href="/series/show/{{ s.key().id() }}">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
+                                {% if s.belongs_to(user_email) %}
                                 <a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
@@ -110,6 +111,7 @@
                                     <span class="glyphicon glyphicon-plus"></span>
                                     <span class="glyphicon glyphicon-picture"></span>
                                 </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
