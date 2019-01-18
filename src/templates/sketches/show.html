@@ -36,7 +36,7 @@
         <div class="alert alert-danger">{{ error }}</div>
 	{% endif %}
         <form class="form-horizontal" role="form" action="" method="post">
-        
+
             <div class="form-group">
                 <label class="col-sm-3 control-label">Fecha de creacion:</label>
 
@@ -55,7 +55,10 @@
                                   
         </form>
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-2"><div class="form-group">
+                <img src="{{ sketch.photo_url }}" alt="photo"/>
+            </div>
+    </div>
 </div>
 <div class="row">
     <div class="col-xs-1"></div>

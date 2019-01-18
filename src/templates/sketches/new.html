@@ -71,19 +71,25 @@
         var results = $('#results');
         var selectedPhoto = $('#inputPhoto');
 
-        function getPhotos(tag) {$.ajax({
-            url: flickrURL,
-            jsonp: 'jsoncallback',
-            dataType: "jsonp",
-            data: {
-                method: 'flickr.photos.search',
-                format: 'json',
-                api_key: '4aa8f09e34633de3ebec605bae969ec3',
-                tags: tag,
-                per_page: '10'
-            },
-            type: 'GET',
-        }).then(data => {results.empty(); data.photos.photo.map(photo => getPhotoUrl(photo)).forEach(p => appendPhoto(p))})}
+        function getPhotos(tag) {
+            $.ajax({
+                url: flickrURL,
+                jsonp: 'jsoncallback',
+                dataType: "jsonp",
+                data: {
+                    method: 'flickr.photos.search',
+                    format: 'json',
+                    api_key: '4aa8f09e34633de3ebec605bae969ec3',
+                    tags: tag,
+                    per_page: '10'
+                },
+                type: 'GET',
+            }).then(data => {
+                results.empty();
+                data.photos.photo.map(photo => getPhotoUrl(photo))
+                    .forEach(p => appendPhoto(p))
+            })
+        }
 
         function getPhotoUrl(photo){
             return `http://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_z.jpg`
