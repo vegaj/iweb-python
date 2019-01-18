@@ -71,7 +71,41 @@ class Logout(BaseHandler):
 class Queries(BaseHandler):
     def get(self):
         return self.render_template("queries.html", {'series': Serie.all(), 'sketches': Sketch.all()})
-
+    
+    def post(self):
+        searchBy = None
+        serie = self.request.get('serieInput')        
+        radio = self.request.get('searchterm')
+        searchValue = self.request.get('serieInput')
+ 
+        if radio == 'sbytitle':
+            searchBy = 'title'
+         
+        if radio == 'sbemail':
+            searchBy = 'author_email'
+            
+        if radio == 'sbynombre':
+            searchBy = 'author_name'
+        
+        
+        print("****************radio")
+        print(radio)
+        print("searchBy")
+        print(searchBy.strip())
+        print("searchValue")
+        print(searchValue)
+        
+        
+#         series = db.GqlQuery("SELECT * FROM Serie WHERE "+search+" LIKE "+"%"+serie+"%"+" ORDER BY score DESC")
+        series = db.GqlQuery("SELECT * FROM Serie WHERE "+searchBy+" = :1 ORDER BY score DESC",searchValue)
+        #series = db.GqlQuery("SELECT * FROM Serie WHERE "+searchBy+" LIKE %s ORDER BY score DESC", "%{}%".format( searchValue)) 
+        
+        
+        print("***series***")
+        print series
+        
+        self.render_template('queries.html', {'series': series})
+    
 class Error(BaseHandler):
     def get(self, *args, **kwargs):
         self.render_template("error.html", {'code': 404, 'hint': 'El recurso que buscabas no existe'})

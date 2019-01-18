@@ -31,8 +31,7 @@
         }
     </style>
 
-    <form href="/series/search/" class="form-horizontal panel panel-default full-padded form-panel-custom" role="form"
-          method="post">
+     <form href="/series/search/" class="form-horizontal panel panel-default full-padded form-panel-custom" role="form" method="post"> 
         <div class="row-eq-height">
         <div class="col-md-3">
 			<a class="btn btn-primary" href="/series/mostViewed/"> Series m&aacute;s vistas
@@ -74,6 +73,7 @@
             <div class="col-sm-3"></div>
         </div>
     </form>
+    
     {% if series %}
         <h3>Series {{ series.count() if  series.count() > 0 else "" }}</h3>
         <div class="row">

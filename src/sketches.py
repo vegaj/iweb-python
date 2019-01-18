@@ -178,13 +178,48 @@ class BestScoreSketches(BaseHandler):
     def get(self):
         
         sketches = db.GqlQuery("SELECT * FROM Sketch ORDER BY score DESC")
- 
         self.render_template('queries.html', {'sketches': sketches})
+        
+    def post(self):
+        searchBy = None
+        serie = self.request.get('serieInput')        
+        radio = self.request.get('searchterm')
+        searchValue = self.request.get('serieInput')
+ 
+        if radio == 'sbytitle':
+            searchBy = 'title'
+         
+        if radio == 'sbemail':
+            searchBy = 'author_email'
+            
+        if radio == 'sbynombre':
+            searchBy = 'author_name'
+        
+        series = db.GqlQuery("SELECT * FROM Serie WHERE "+searchBy+" = :1 ORDER BY score DESC",searchValue)
+        self.render_template('queries.html', {'series': series})
+
         
 class TopDateSketches(BaseHandler):
     
     def get(self):
         
         sketches = db.GqlQuery("SELECT * FROM Sketch ORDER BY createdAt DESC")
- 
         self.render_template('queries.html', {'sketches': sketches})
+        
+    def post(self):
+        searchBy = None
+        serie = self.request.get('serieInput')        
+        radio = self.request.get('searchterm')
+        searchValue = self.request.get('serieInput')
+ 
+        if radio == 'sbytitle':
+            searchBy = 'title'
+         
+        if radio == 'sbemail':
+            searchBy = 'author_email'
+            
+        if radio == 'sbynombre':
+            searchBy = 'author_name'
+        
+        series = db.GqlQuery("SELECT * FROM Serie WHERE "+searchBy+" = :1 ORDER BY score DESC",searchValue)
+        self.render_template('queries.html', {'series': series})
