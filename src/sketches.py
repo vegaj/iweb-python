@@ -4,6 +4,7 @@ from google.appengine.ext import db
 from views import BaseHandler
 from models import Sketch
 
+
 class ShowSketch(BaseHandler):
     
     def get(self, sketch_id):
@@ -11,13 +12,6 @@ class ShowSketch(BaseHandler):
         sketch = db.get(db.Key.from_path('Sketch', iden))
         if not sketch:
             return self.render_template("error.html", {'code': 404, 'hint': 'No existe ninguna vi\u00F1eta con esa ID'})
-        
-#         p = {
-#             'title': sketch.title,
-#             'createdAt': sketch.createdAt,
-#             'score': sketch.score,
-#         }
-        sketch.put()
 
         comments = sketch.comments if sketch.comments else []
         self.render_template('sketches/show.html', {'sketch': sketch, 'comments': comments})
@@ -172,3 +166,17 @@ class DeleteSketch(BaseHandler):
         id_serie = sketch.serie.key().id()
         sketch.cascade()
         return self.redirect('/series/show/{}'.format(id_serie))
+
+
+class BestScoreSketches(BaseHandler):
+    
+    def get(self):
+        sketches = db.GqlQuery("SELECT * FROM Sketch ORDER BY score DESC")
+        self.render_template('queries.html', {'sketches': sketches})
+
+
+class TopDateSketches(BaseHandler):
+    
+    def get(self):
+        sketches = db.GqlQuery("SELECT * FROM Sketch ORDER BY createdAt DESC")
+        self.render_template('queries.html', {'sketches': sketches})

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <style>
+        .row-eq-height {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .side-padding {
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+
+        .full-padded {
+            padding: 1em;
+        }
+
+        .form-panel-custom {
+            background-image: url('/static/img/comic-background.png');
+            background-repeat: repeat-x;
+            background-color: white;
+            border-radius: 1em;
+        }
+
+        .button-custom {
+            font-size: 25px;
+            font-weight: bold;
+        }
+    </style>
+
+    <form action="/series/search/" class="form-horizontal panel panel-default full-padded form-panel-custom" role="form"
+          method="post">
+        <div class="row-eq-height">
+            <div class="col-md-3">
+                <a class="btn btn-primary" href="/series/mostViewed/"> Series m&aacute;s vistas
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a> <br><br>
+                <a class="btn btn-primary" href="/sketches/bestScore/"> Top vi&ntilde;etas
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a> <br><br>
+                <a class="btn btn-primary" href="/sketches/topDate/"> Vi&ntilde;etas ordenadas por fecha
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a> <br><br>
+                <a class="btn btn-primary" href="/series/bestScore/"> Top series
+                    <span style="margin-left: 5px;" aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="col-sm-6 panel panel-default">
+                <h2>B&uacute;squeda de series</h2>
+                <div class="form-group side-padding">
+                    <input class="form-control"
+                           type="text" value="{{ serieInput }}" name="serieInput"
+                           placeholder="Termino de busqueda...">
+                </div>
+                <div class="form-group side-padding">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <input type="radio" name="searchterm" value="sbytitle" checked="checked"> T&iacute;tulo
+                            &nbsp;
+                            <input type="radio" name="searchterm" value="sbemail"> Email del autor &nbsp;
+                            <input type="radio" name="searchterm" value="sbynombre"> Nombre del autor &nbsp;
+                        </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <button class="col-sm-6 btn btn-info button-custom" type="submit" value="submit">Buscar</button>
+            <div class="col-sm-3"></div>
+        </div>
+    </form>
+    {% if series %}
+        <h3>Series {{ series.__len__ if  series.__len__ > 0 else "" }}</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                    <th>T&iacute;tulo</th>
+                    <th>Nombre del Autor</th>
+                    <th>Email del autor</th>
+                    <th>Puntuaci&oacute;n</th>
+                    <th>Visualizaciones</th>
+                    <th>Opciones</th>
+                    </thead>
+                    <tbody>
+                    {% for s in series %}
+                        <tr>
+                            <td>{{ s.title }}</td>
+                            <td>{{ s.author_name }}</td>
+                            <td>{{ s.author_email }}</td>
+                            <td>{{ s.score }}</td>
+                            <td>{{ s.views }}</td>
+                            <td>
+                                <a class="btn btn-info" href="/series/show/{{ s.key().id() }}">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a class="btn btn-warning" href="/series/edit/{{ s.key().id() }}">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                <a class="btn btn-danger" href="/series/delete/{{ s.key().id() }}">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                                <a class="btn btn-primary" href="/series/{{ s.key().id() }}/sketches/new">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                    <span class="glyphicon glyphicon-picture"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div  style="font-size: 20px; margin-top: 1em; margin-bottom: 1em;" class="label label-info col-md-12">No hay series que mostrar</div>
+    {% endif %}
+    {% if sketches %}
+        {% include "sketches/list.html" %}
+    {% else %}
+        <div style="font-size: 20px; margin-top: 2em; margin-bottom: 1em;" class="label label-info col-md-12">No hay viñetas que mostrar</div>
+    {% endif %}
+
+{% endblock content %}
