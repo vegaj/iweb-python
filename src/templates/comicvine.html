@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+    <style>
+        .row-eq-height {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+        }
+    </style>
+    <div class="row text-center">
+        <h1>Inf&oacute;rmate, aprende y crea</h1>
+        <p style="font-size: 15px">
+            Consigue documentaci&oacute;n y m&aacute;s informaci&oacute;n sobre el mundo de los comics consultando
+            la API de <a href="https://comicvine.gamespot.com">ComicVine de Appspot &#8482;</a>. Sólo así podras crear
+            obras fieles a una temática, consistentes y bien ambientadas.
+        </p>
+        <p style="font-size: 18px;">Así que ¿A qué esperas?</p>
+        <hr/>
+
+    </div>
+    <div class="col-sm-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">B&uacute;squeda externa</h3>
+            </div>
+            <div class="panel-body">
+                <form action="" method="post">
+                    <label for="form-search-field" class="control-label">T&eacute;rmino de B&uacute;squeda</label>
+                    <input type="text" name="search-term" class="form-control" id="form-search-field"
+                           placeholder="Introduce algo para buscar..." value="{{ title }}"/>
+                    <input value="Buscar" type="submit" class="form-control btn btn-success"/>
+                </form>
+            </div>
+            <div class="panel-footer text-justify">
+                <p>Las b&uacute;squedas externas se realizan en la API de
+                    <a href="https://comicvine.gamespot.com/api/">ComicVine &#8482;</a>.
+                    <br/>
+                    <br/>
+                    <i>Los resultados son para uso no comercial.</i>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <div id="error-lbl" class="label label-danger" style="font-size: 20px"></div>
+        <div id="results" class="">
+            {% for r in results %}
+
+                    <div class="col-sm-4">
+                        <div class="panel panel-default ">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">{{ r.get('name') }}</h4>
+                            </div>
+                            <div class="panel-body">
+                                <img src="{{ r.get('image').get('medium_url') }}" style="width: 100%;height: auto"/>
+                                <hr/>
+
+                                {% if r.get('publisher') %}
+                                    <p>Publicado por <i>{{ r.get('publisher').get('name') }}</i></p>
+                                {% endif %}
+                                {% if r.get('count_of_episodes') %}
+                                    <p>Cuenta con <b>{{ r.get('count_of_episodes') }}</b> episodios</p>
+                                {% endif %}
+                            </div>
+                            <div class="panel-footer">
+                                <a class="btn btn-info" style="width: 100%" href="{{ r.get('site_detail_url') }}">Enlace
+                                    Externo</a>
+                            </div>
+                        </div>
+                    </div>
+
+            {% else %}
+                <div class="label label-info" style="font-size: 20px">Nada que mostrar</div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+
+{% endblock scripts %}

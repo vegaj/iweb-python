@@ -1,0 +1,41 @@
+<!-- Usa todo el espacio disponible -->
+<div>
+
+		<h3>Comentarios {{ comments.count() if  comments.count() > 0 else ""}}</h3>
+    {% if comments and comments.count() > 0%}
+
+
+    <table class="table">
+        <thead>
+            <th>Autor/a</th>
+            <th>Email</th>
+            <th>Comentario</th>
+            <th>&Uacute;ltima modificaci&oacute;n</th>
+			<th><span class="glyphicon glyphicon-cog"></span></th>
+        </thead>
+       
+    <tbody>
+    {% for c in comments %}
+        <tr>
+            <td>{{ c.author_name }}</td>
+            <td>{{ c.author_email }}</td>
+            <td>{{ c.text }}</td>
+            <td>{{ c.lastEdit.strftime('%d-%m-%Y') }}</td>
+        <td>
+        		{% if c.belongs_to(user_email) %}
+                <a  href="/comments/edit/{{ c.key().id() }}" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a  href="/comments/delete/{{ c.key().id() }}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+                {% endif %}
+        </td>
+        </tr>
+    {% endfor %} 
+    </tbody> 
+    </table> 
+	{% else %}
+        <div class="alert alert-info">Esta Vi&ntilde;eta no tiene comentarios</div>
+    {% endif %}
+</div>

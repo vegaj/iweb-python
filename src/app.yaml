@@ -19,3 +19,5 @@ libraries:
 builtins:
 - remote_api: on
 
+env_variables:
+  COMIC_KEY: "e3a28e9f8db9880699b8751b9193af2aed2882a6"
